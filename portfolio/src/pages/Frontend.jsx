@@ -250,7 +250,7 @@ function Frontend() {
       <SectionDivider />
 
       {/* ────── SKILLS ────── */}
-      <section className="section-padding" id="skills">
+      <section className="section-padding" id="skill">
         <div className="container">
           <motion.div
             className="section-header"
