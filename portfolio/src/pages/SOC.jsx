@@ -61,22 +61,21 @@ function SOC() {
             >
               <div className="hero-eyebrow soc">
                 <span className="hero-eyebrow-dot" />
-                First SOC Project · Open to SOC Analyst L1 Roles
+                Cybersecurity Enthusiast · Open to Security Roles
               </div>
 
               <h1 className="hero-name">Amit Pal</h1>
-              <span className="hero-role soc">SOC Analyst L1 Candidate</span>
+              <span className="hero-role soc">Cybersecurity Analyst & Researcher</span>
 
               <p className="hero-bio">
-                Currently a{' '}
-                <strong style={{ color: '#f1f5f9', fontWeight: 600 }}>Frontend Developer</strong>{' '}
-                actively transitioning into cybersecurity. Built a complete{' '}
-                <strong style={{ color: '#c084fc', fontWeight: 600 }}>
-                  SOC Home Lab
-                </strong>{' '}
-                — 4 VMs, Wazuh SIEM, TheHive case management, real attack simulations including
-                Mimikatz CRITICAL detection. My frontend engineering background gives me deep
-                understanding of web application security threats.
+               A{' '}
+<strong style={{ color: '#f1f5f9', fontWeight: 600 }}>Frontend Developer</strong>{' '}
+who fell in love with cybersecurity. I built hands-on labs covering{' '}
+<strong style={{ color: '#c084fc', fontWeight: 600 }}>
+  SIEM detection, phishing forensics, network traffic analysis, and log investigation
+</strong>{' '}
+— because the best way to learn security is to attack, detect, and document it yourself.
+My engineering background means I understand how systems are built — and how they break.
 
 
 
@@ -187,22 +186,24 @@ function SOC() {
                 <div className="about-card-icon soc"><i className="fas fa-crosshairs" /></div>
                 Why Cybersecurity?
               </div>
-              <p>
-                I'm Amit Pal — a frontend developer with 10 months of professional experience.
-                I've always been curious about how the systems I build can be attacked and
-                defended. That curiosity led me to build this SOC Home Lab as my first
-                cybersecurity project.
-              </p>
-              <p style={{ marginTop: '0.9rem' }}>
-                My frontend engineering background is a real advantage in cybersecurity — I
-                understand web application architecture, client-side attack vectors like XSS and
-                CSRF, API security, and how modern web apps are structured. I want to use that
-                knowledge on the defensive side.
-              </p>
-              <p style={{ marginTop: '0.9rem' }}>
-                I'm actively seeking SOC Analyst L1 roles and freelance cybersecurity work. I
-                will work hard to prove myself and grow into a strong security professional.
-              </p>
+             <p>
+  I'm Amit Pal — a frontend developer with 10 months of professional experience
+  who has been building cybersecurity skills in parallel. Security isn't a pivot
+  for me — it's something I've been genuinely obsessed with. I started with a
+  SOC home lab and kept going: phishing forensics, Splunk log analysis, network
+  traffic investigation with Wireshark. Every project taught me something real.
+</p>
+<p style={{ marginTop: '0.9rem' }}>
+  My development background is a genuine advantage here — I understand web
+  application architecture, how APIs work, client-side attack surfaces like XSS
+  and CSRF, and how modern apps are structured and deployed. That makes me a
+  stronger analyst, not just a tool operator.
+</p>
+<p style={{ marginTop: '0.9rem' }}>
+  I'm open to any cybersecurity role — SOC analyst, security intern, threat
+  analyst, junior penetration tester, or any position where I can contribute,
+  learn fast, and grow into a strong security professional.
+</p>
             </motion.div>
 
             <motion.div
@@ -242,12 +243,13 @@ function SOC() {
                 <div className="timeline-item">
                   <div className="timeline-dot soc"><i className="fas fa-circle" style={{ fontSize: '5px' }} /></div>
                   <div className="timeline-body">
-                    <div className="timeline-title">Targeting SOC Analyst L1</div>
-                    <div className="timeline-meta soc">Goal · Open to opportunities</div>
-                    <div className="timeline-desc">
-                      Actively seeking first cybersecurity role. Also open to freelance SOC work,
-                      penetration testing assistance, and security advisory roles.
-                    </div>
+                    <div className="timeline-title">Targeting Cybersecurity Roles</div>
+<div className="timeline-meta soc">Goal · Open to any security opportunity</div>
+<div className="timeline-desc">
+  Actively seeking internships, SOC analyst roles, security analyst positions,
+  or any cybersecurity role where I can contribute and grow. Open to freelance
+  security project work too.
+</div>
                   </div>
                 </div>
               </div>
@@ -397,12 +399,13 @@ function SOC() {
               📌 Note for Recruiters
             </div>
             <p style={{ fontSize: '0.87rem', color: 'var(--text-secondary)', lineHeight: 1.75 }}>
-              This SOC Home Lab (Wazuh + TheHive + real Mimikatz / Brute Force / Nmap attacks) is
-              my first cybersecurity project, completed March 2026. I am actively working
-              towards <strong style={{ color: '#c084fc' }}>CompTIA Security+</strong> and{' '}
-              <strong style={{ color: '#c084fc' }}>Blue Team Labs Online (BTL1)</strong>. I am
-              open to entry-level SOC Analyst, junior threat hunter, and freelance security
-              project opportunities. I'm a fast learner and will work hard to prove my value.
+             My cybersecurity projects span SIEM detection (Wazuh), phishing email forensics,
+Splunk log analysis, and Wireshark network investigation — all completed while
+working full-time as a frontend developer. I am actively working towards{' '}
+<strong style={{ color: '#c084fc' }}>CompTIA Security+</strong> and{' '}
+<strong style={{ color: '#c084fc' }}>Blue Team Labs Online (BTL1)</strong>. I am
+open to security internships, SOC analyst roles, threat analyst positions, and
+any cybersecurity opportunity where I can learn and prove my value.
             </p>
           </motion.div>
         </div>
@@ -463,8 +466,8 @@ function SOC() {
                 <div>
                   <div className="contact-label">Status</div>
                   <div className="contact-val" style={{ color: '#c084fc' }}>
-                    Actively Seeking SOC Analyst L1 Roles
-                  </div>
+  Open to Cybersecurity Internships & Security Roles
+</div>
                 </div>
               </div>
             </div>
@@ -472,14 +475,15 @@ function SOC() {
             <div className="hire-box soc">
               <div className="hire-status soc">
                 <div className="hire-status-dot" />
-                Open to SOC Analyst Roles
+                Open to Cybersecurity Roles
               </div>
-              <h3>Hire Me as SOC Analyst</h3>
-              <p>
-                I built a complete SOC Home Lab, detected real attacks with Wazuh SIEM, wrote
-                formal incident reports, and mapped everything to MITRE ATT&CK. I'm a frontend
-                developer who understands how web apps work — and how they get attacked.
-              </p>
+             <h3>Hire Me in Cybersecurity</h3>
+<p>
+  I've built hands-on projects across SIEM detection, phishing analysis, Splunk
+  log investigation, and network forensics — all self-driven, all documented. I
+  understand how web systems are built and how attackers exploit them. Ready to
+  contribute from day one.
+</p>
               <div className="hire-box-btns">
                 <motion.a
                   href="mailto:amitpal2972004@gmail.com"
@@ -489,14 +493,14 @@ function SOC() {
                 >
                   <i className="fas fa-paper-plane" /> Send Email
                 </motion.a>
-                <motion.button
+                {/* <motion.button
                   className="btn btn-soc-outline"
                   onClick={() => setSelectedProject(socProjects[0])}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.97 }}
                 >
                   <i className="fas fa-file-shield" /> View SOC Report
-                </motion.button>
+                </motion.button> */}
               </div>
             </div>
           </div>
@@ -507,7 +511,7 @@ function SOC() {
       <footer className="site-footer">
         <div className="container">
           <div className="footer-name">Amit Pal</div>
-          <div className="footer-sub">SOC Analyst L1 Candidate · India</div>
+          <div className="footer-sub">SOC Analyst Candidate · India</div>
           <div className="footer-mono">Wazuh · TheHive · Kali Linux · MITRE ATT&CK · March 2026</div>
         </div>
       </footer>

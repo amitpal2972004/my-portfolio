@@ -33,7 +33,7 @@ function Navbar({ mode, setMode, theme, toggleTheme }) {
         <div className="nav-logo">
           <span className="nav-logo-name">Amit Pal</span>
           <span className="nav-logo-sub">
-            {isFE ? '< Frontend Developer />' : '🔐 SOC Analyst L1'}
+            {isFE ? '< Frontend Developer />' : '🔐 Cybersecurity '}
           </span>
         </div>
 
@@ -68,7 +68,7 @@ function Navbar({ mode, setMode, theme, toggleTheme }) {
             aria-label="SOC Analyst mode"
           >
             <i className="fas fa-shield-halved" />
-            SOC Analyst
+            Cybersecurity
           </motion.button>
            <button
             className="theme-toggle-btn"
