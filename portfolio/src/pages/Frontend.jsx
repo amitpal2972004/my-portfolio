@@ -162,7 +162,7 @@ function Frontend() {
             <div className="section-eyebrow fe">
               <i className="fas fa-user" /> About
             </div>
-            <h2 className="section-title">My Story & Experiences</h2>
+            <h2 className="section-title">My Story & Experience</h2>
             <p className="section-desc">
               10 months of hands-on frontend development with real-world projects and users.
             </p>
@@ -250,7 +250,7 @@ function Frontend() {
       <SectionDivider />
 
       {/* ────── SKILLS ────── */}
-      <section className="section-padding" id="skill">
+      <section className="section-padding" id="skills">
         <div className="container">
           <motion.div
             className="section-header"
