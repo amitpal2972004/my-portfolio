@@ -10,33 +10,33 @@ const SOC_SKILLS = [
     icon: 'fas fa-satellite-dish',
     label: 'SIEM & Detection',
     color: 'soc',
-    tags: ['Wazuh v4.7.5', 'Elastic Stack', 'Kibana', 'Sigma Rules', 'Sysmon'],
+    tags: ['Wazuh', 'Elastic Stack', 'Sysmon', 'Wireshark'],
   },
   {
     icon: 'fas fa-bug',
-    label: 'Attack Tools (Lab)',
+    label: 'Attack Tools',
     color: 'soc',
-    tags: ['Kali Linux', 'Nmap', 'Hydra', 'Mimikatz', 'Metasploit'],
+    tags: ['Kali Linux', 'Nmap', 'Metasploit'],
   },
   {
     icon: 'fas fa-shield-halved',
     label: 'SOC Platforms',
     color: 'soc',
-    tags: ['TheHive 5', 'Cortex', 'MISP', 'VirtualBox', 'Ubuntu Server'],
+    tags: ['TheHive ', 'VirtualBox', 'Ubuntu Server'],
   },
   {
     icon: 'fas fa-magnifying-glass-chart',
     label: 'Frameworks & Methods',
     color: 'neutral',
-    tags: ['MITRE ATT&CK', 'Incident Response', 'Log Analysis', 'Threat Hunting', 'Alert Triage'],
+    tags: ['MITRE ATT&CK', 'Incident Response', 'Log Analysis', 'Alert Triage'],
   },
 ]
 
 const SOC_CERTS = [
   { icon: '🛡️', name: 'SOC Home Lab — Wazuh & TheHive', org: 'Self-Built · Completed March 2026', year: 'March 2026', color: 'soc' },
-  { icon: '⚔️', name: 'MITRE ATT&CK Applied', org: 'Lab Simulations — T1003, T1110, T1046', year: '2026', color: 'soc' },
-  { icon: '🔴', name: 'Incident Report IR-2026-001', org: 'Mimikatz CRITICAL — Documented & Resolved', year: 'March 2026', color: 'soc' },
-  { icon: '📋', name: 'CompTIA Security+ (Studying)', org: 'Planned · Self-Study', year: 'In Progress', color: 'soc' },
+  { icon: '⚔️', name: 'Introduction to cybersecurity', org: 'Cisco Networking Academy', year: '2026', color: 'soc' },
+  { icon: '🛡️', name: 'Cyber Security-SOC and SIEM (SPLUNK & ELK) for Beginners', org: 'Udemy', year: '2026', color: 'soc' },
+  { icon: '📋', name: 'Tata Group - Cybersecurity Analyst Job Simulation', org: 'Forage', year: '2024', color: 'soc' },
 ]
 
 function SectionDivider() {
@@ -382,7 +382,7 @@ My engineering background means I understand how systems are built — and how t
           </div>
 
           {/* Note box */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -407,7 +407,7 @@ working full-time as a frontend developer. I am actively working towards{' '}
 open to security internships, SOC analyst roles, threat analyst positions, and
 any cybersecurity opportunity where I can learn and prove my value.
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 
