@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import ProjectCard from '../components/ProjectCard'
 import Popup from '../components/Popup'
 import { socProjects } from '../data/socProjects'
-import avatarImage from '../assets/imag1.jpg';
+import avatarImage from '../assets/profilepicture.jpeg';
 
 const SOC_SKILLS = [
   {
