@@ -631,13 +631,13 @@ export const socProjects = [
 },
 
 {
-  id: "PHI-2026-002",
+  id: "PHISH-2026-006",
   icon: "📧",
   title: "QuantInsti — Momentum Trading Email (Legitimate Marketing - False Positive)",
   date: "July 2023",
   riskLevel: "NONE",
   status: "Closed - Legitimate Email / Not Phishing",
-  reportFile: "SOC_QuantInsti_False_Positive",
+  // reportFile: "SOC_QuantInsti_False_Positive",
   summary: "This is a legitimate marketing email from QuantInsti. SPF, DKIM, and DMARC all passed. No malicious links, attachments, or credential harvesting forms detected. The recipient address 'phishing@pot' is anomalous but indicates a security researcher sandbox submission or marketing test, not an attack.",
   fullDescription: "An email from Raunaq Sahni (raunaq.s@quantinsti.com) promoting a Momentum Trading course in Portuguese was submitted for forensic analysis. The email was addressed to 'phishing@pot', which triggered suspicion.\n\nFull analysis: header inspection revealed SPF PASS (149.72.51.63 permitted by em.quantinsti.com), DKIM PASS (signature verified for quantinsti.com), and DMARC PASS. Sender IP traced to SendGrid (Twilio), a legitimate email marketing platform. HTML content analysis showed no obfuscated scripts, no attachments, no credential forms, and no exploit code. All embedded URLs decoded via CyberChef: SendGrid tracking URLs redirected to legitimate quantinsti.com domains.\n\nVerdict: NOT PHISHING. This is a legitimate marketing email. The anomalous recipient address 'phishing@pot' suggests this was either (1) a security researcher submitting the email to a honeypot/sandbox for analysis, or (2) a misconfigured marketing test email sent to the wrong address.\n\nNo user action required. No blocks needed.",
   emailDetails: {
@@ -715,6 +715,668 @@ export const socProjects = [
     }
   ],
   recommendation: "No action required. No blocks needed. This is a false positive."
+},
+
+{
+  id: "PHI-2026-007",
+  icon: "🎣",
+  title: "Elizabeth Ray — Cancer Fund Partnership Scam (419/Nigerian Prince Variant)",
+  date: "August 2023",
+  riskLevel: "HIGH",
+  status: "Documented",
+  reportFile: "SOC_Elizabeth_Ray_Phishing_Analysis.pdf",
+  summary: "Classic advance-fee fraud (419 scam) email impersonating a dying widow seeking a partner to handle 'allocated funds'. All email authentication checks failed. Sender spoofed, infrastructure compromised, and social engineering uses cancer/urgency tactics.",
+  fullDescription: "Email from 'shore@suksapan.or.th' claiming to be Elizabeth Ray, a woman dying of cancer seeking a partner to handle funds from her late husband. This is a classic 419/Nigerian Prince advance-fee fraud scam.\n\nFull analysis: header inspection revealed SPF SOFTFAIL, DKIM NONE, DMARC NONE, and COMPAUTH FAIL. Sender IP 202.129.206.234 traced to Thailand (host4.ns.co.th). Email chain shows relay through compromised Thai hosting provider. Return-Path and From mismatch. Reply-To set to elizabethray993@gmail.com (Google address) — clear red flag. Content uses emotional manipulation (cancer, limited time, late husband) and urgency tactics. HTML and plain text versions both present with identical scam message.\n\nVerdict: CONFIRMED PHISHING/SCAM. This is an advance-fee fraud scheme designed to trick victims into responding, then extracting money under false pretenses (legal fees, transfer fees, taxes, etc.).",
+  emailDetails: {
+    Subject: "Hi",
+    Sender: "shore@suksapan.or.th",
+    "From": "shore@suksapan.or.th",
+    "Reply-To": "elizabethray993@gmail.com",
+    To: "Recipients <shore@suksapan.or.th>",
+    "Return-Path": "shore@suksapan.or.th",
+    Date: "Tue, 01 Aug 2023 17:09:24 +0100",
+    "Sender-IP": "202.129.206.234",
+    "X-Sender-IP": "202.129.206.234",
+    "X-SID-PRA": "SHORE@SUKSAPAN.OR.TH",
+    "X-SID-Result": "FAIL",
+    "X-MS-Exchange-Organization-SCL": "5",
+    "Content-Type": "multipart/alternative",
+    Finding: "CONFIRMED PHISHING / ADVANCE-FEE FRAUD"
+  },
+  headerAnalysis: {
+    SPF: "SOFTFAIL",
+    DKIM: "NONE",
+    DMARC: "NONE",
+    CompAuth: "FAIL (reason 001)",
+    "Received-SPF": "SoftFail (domain of transitioning suksapan.or.th discourages use of 202.129.206.234 as permitted sender)",
+    "X-SID-Result": "FAIL",
+    "X-MS-Exchange-Organization-SCL": "5 (Spam)",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:J (Junk Email)",
+    Conclusion: "All authentication checks failed. Email is spoofed or sent from compromised infrastructure. Microsoft marked as Junk (SCL 5)."
+  },
+  is_phishing: true,
+  verdict: "CONFIRMED PHISHING — ADVANCE-FEE FRAUD (419 SCAM)",
+  reasons_phishing: [
+    "SPF SOFTFAIL — sender IP not authorized by domain owner",
+    "DKIM NONE — email not signed by sending domain",
+    "DMARC NONE — no domain protection policy",
+    "COMPAUTH FAIL — authentication completely failed",
+    "Reply-To points to Gmail (elizabethray993@gmail.com) — not the claimed organization",
+    "Sender IP 202.129.206.234 — Thailand hosting, not legitimate business infrastructure",
+    "X-SID-Result: FAIL — Microsoft could not validate sender",
+    "Email routed through compromised Thai hosting (host4.ns.co.th)",
+    "Emotional manipulation: 'cancer', 'limited timeframe', 'late husband'",
+    "Urgency tactics: 'Urgent Situation', 'limited timeframe'",
+    "Classic 419 scam pattern: stranger offering large funds partnership",
+    "Microsoft SCL 5 — automatically classified as spam/junk"
+  ],
+  attacks: [
+    {
+      name: "Sender Spoofing / Domain Impersonation",
+      mitre: "T1566.001",
+      mitreLabel: "Phishing: Spearphishing Attachment",
+      severity: "critical",
+      desc: "Sender spoofed as shore@suksapan.or.th (Thai educational domain). SPF SOFTFAIL, DKIM NONE, DMARC NONE. Reply-To redirects to elizabethray993@gmail.com — a clear deception tactic."
+    },
+    {
+      name: "Advance-Fee Fraud (419 Scam)",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "critical",
+      desc: "Classic Nigerian Prince variant. Claims dying of cancer, needs partner for 'allocated funds' from late husband. Victim will be asked to pay fees, taxes, or bribes to release non-existent funds."
+    },
+    {
+      name: "Social Engineering — Emotional Manipulation",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "high",
+      target: "Victim's empathy",
+      desc: "Uses cancer diagnosis, limited timeframe, late husband's legacy, and 'meaningful impact' to manipulate victim's emotions and bypass rational thinking."
+    },
+    {
+      name: "Urgency Tactic",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "medium",
+      desc: "Phrases like 'Urgent Situation', 'limited timeframe due to cancer', and 'seeking a reliable partner' pressure victim to respond quickly without verification."
+    },
+    {
+      name: "Compromised Infrastructure",
+      mitre: "T1583.003",
+      mitreLabel: "Acquire Infrastructure: VPS",
+      severity: "medium",
+      attacker: "host4.ns.co.th (202.129.206.234) — Thailand",
+      desc: "Email routed through compromised Thai web hosting provider. The server host4.ns.co.th was used to relay the scam email. Abuse report should be filed."
+    },
+    {
+      name: "Mismatched Reply-To Address",
+      mitre: "T1036",
+      mitreLabel: "Masquerading",
+      severity: "high",
+      desc: "From: shore@suksapan.or.th (Thai educational domain). Reply-To: elizabethray993@gmail.com (free Gmail). Legitimate businesses never use free email providers for official correspondence."
+    }
+  ],
+  iocs: [
+    {
+      type: "IP",
+      value: "202.129.206.234",
+      note: "host4.ns.co.th — Thailand — Compromised hosting infrastructure"
+    },
+    {
+      type: "IP",
+      value: "102.69.133.254",
+      note: "btclanki122-everest.nord — Original sender source before relay"
+    },
+    {
+      type: "Domain",
+      value: "suksapan.or.th",
+      note: "Spoofed domain — legitimate Thai educational institution (likely unaware)"
+    },
+    {
+      type: "Email",
+      value: "shore@suksapan.or.th",
+      note: "Spoofed sender — compromised or impersonated account"
+    },
+    {
+      type: "Email",
+      value: "elizabethray993@gmail.com",
+      note: "Reply-To address — attacker-controlled Gmail account"
+    },
+    {
+      type: "Domain",
+      value: "host4.ns.co.th",
+      note: "Thai hosting provider — used to relay scam email"
+    },
+    {
+      type: "Pattern",
+      value: "419 / Nigerian Prince / Advance-Fee Fraud",
+      note: "Classic scam pattern: dying person, large funds, seeking partner"
+    }
+  ],
+  scam_indicators: [
+    "Unsolicited email from stranger",
+    "Story involves large sums of money",
+    "Emotional manipulation (cancer, death, legacy)",
+    "Urgency to act quickly",
+    "Reply-To is free email service (Gmail)",
+    "Poor grammar and vague details",
+    "No specific information about the funds",
+    "Request to reply for 'more details' (first step of scam)"
+  ],
+  recommendation: "BLOCK sender IP 202.129.206.234. BLOCK domain suksapan.or.th if not needed. Report elizabethray993@gmail.com to Google. File abuse report with host4.ns.co.th. User education: Never respond to unsolicited partnership offers. No action required for recipient beyond deleting the email."
+},
+
+
+{
+  id: "PHI-2026-008",
+  icon: "💰",
+  title: "Warren Buffett $5 Million Charity Donation Scam (419 Advance-Fee Fraud)",
+  date: "August 2023",
+  riskLevel: "HIGH",
+  status: "Documented",
+  // reportFile: "SOC_Warren_Buffett_Scam_Analysis.pdf",
+  summary: "Classic 419 advance-fee fraud impersonating Warren Buffett. Claims $5 million donation but requests personal information (name, address, phone). All authentication checks failed. Uses emotional manipulation (cancer, death, dying in hospital) and authority impersonation (Warren Buffett).",
+  fullDescription: "Email impersonating Warren Buffett, the famous billionaire investor, claiming the recipient has been selected for a $5 million donation. The scammer uses real news articles about Buffett's charity work to appear legitimate. Email requests personal information including full name, address, and phone number — the first step in an advance-fee fraud scheme where victims will later be asked to pay 'fees' or 'taxes' to release the non-existent funds.\n\nFull analysis: SPF NONE, DKIM NONE, DMARC NONE, COMPAUTH FAIL. Sender IP 117.121.214.50 traced to unknown server (mail.srv.world). Private IP 192.168.0.254 in received chain indicates home network origin. Reply-To set to mrwarrenb55@gmail.com — free Gmail account. X-Mailer shows Outlook Express 6.0 (released 2001) — obvious fake header. Microsoft SCL 5 and dest:J confirm delivery to junk folder.\n\nVerdict: CONFIRMED PHISHING / ADVANCE-FEE FRAUD (419 SCAM) — Impersonating Warren Buffett.",
+  emailDetails: {
+    Subject: "52Greetings to You my good friend",
+    From: "\"Mr.Warren Buffett Billionaire investor\" <test@central.mercfresh.com>",
+    "Reply-To": "mrwarrenb55@gmail.com",
+    To: "Undisclosed recipients:",
+    "Return-Path": "test@central.mercfresh.com",
+    Date: "Wed, 2 Aug 2023 16:40:17 -0700",
+    "Sender-IP": "117.121.214.50",
+    "X-Sender-IP": "117.121.214.50",
+    "X-SID-PRA": "TEST@CENTRAL.MERCFRESH.COM",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "5",
+    "X-Mailer": "Microsoft Outlook Express 6.00.2600.0000",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:J",
+    "X-Microsoft-Antispam-BCL": "9",
+    Finding: "CONFIRMED PHISHING — 419 Advance-Fee Fraud"
+  },
+  headerAnalysis: {
+    SPF: "NONE",
+    DKIM: "NONE",
+    DMARC: "NONE",
+    CompAuth: "FAIL (reason 001)",
+    "Received-SPF": "None (central.mercfresh.com does not designate permitted sender hosts)",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "5 (Spam)",
+    "X-Microsoft-Antispam-BCL": "9 (Very likely spam)",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:J (Delivered to Junk)",
+    Conclusion: "All authentication checks failed or returned NONE. Microsoft delivered directly to Junk folder. BCL 9 indicates very high spam confidence."
+  },
+  is_phishing: true,
+  verdict: "CONFIRMED PHISHING — 419 ADVANCE-FEE FRAUD (Impersonating Warren Buffett)",
+  reasons_phishing: [
+    "SPF NONE — domain has no SPF record or no authorized IPs",
+    "DKIM NONE — no digital signature, email could be completely forged",
+    "DMARC NONE — no domain protection policy",
+    "COMPAUTH FAIL — Microsoft authentication failed",
+    "X-SID-Result: NONE — no sender validation possible",
+    "Reply-To is Gmail (mrwarrenb55@gmail.com) — not legitimate",
+    "From domain central.mercfresh.com — NOT Berkshire Hathaway",
+    "Sender IP 117.121.214.50 — unknown server (mail.srv.world)",
+    "Private IP 192.168.0.254 in received chain — originated from home network",
+    "X-Mailer: Outlook Express 6.0 — software from 2001, obvious fake header",
+    "Microsoft SCL 5 — flagged as spam",
+    "Microsoft BCL 9 — very high spam confidence",
+    "Dest: J — delivered to junk folder",
+    "Impersonates Warren Buffett — famous billionaire (authority figure)",
+    "Claims $5 million donation to stranger — unrealistic",
+    "Emotional manipulation: 'cancer', 'wife died', 'I am sick', 'writing from hospital'",
+    "Requests personal information: name, address, phone number",
+    "Classic 419 pattern: famous name + large sum + emotional story + request for info"
+  ],
+  attacks: [
+    {
+      name: "Authority Impersonation (Warren Buffett)",
+      mitre: "T1566.002",
+      mitreLabel: "Spearphishing Link",
+      severity: "critical",
+      desc: "Scammer impersonates Warren Buffett, one of the world's most famous billionaires, to appear legitimate. Uses real LA Times article about Buffett's charity work as 'proof'."
+    },
+    {
+      name: "Sender Spoofing / Domain Impersonation",
+      mitre: "T1566.001",
+      mitreLabel: "Phishing: Spearphishing Attachment",
+      severity: "critical",
+      desc: "From address uses test@central.mercfresh.com — completely unrelated to Warren Buffett. SPF/DKIM/DMARC all NONE or FAIL."
+    },
+    {
+      name: "Advance-Fee Fraud (419 Scam)",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "critical",
+      desc: "Classic 419 variant. Claims $5 million donation but first requests personal information. Next steps would include requests for 'fees', 'taxes', or 'legal costs' to release the non-existent funds."
+    },
+    {
+      name: "Emotional Manipulation — Death and Cancer",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "high",
+      desc: "Uses wife's cancer, wife's death, sender's own illness, hospital computer, and dying within months. Designed to bypass rational thinking through sympathy."
+    },
+    {
+      name: "Urgency Tactic — Impending Death",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "high",
+      desc: "'I don't know when I will die', 'I only have a few months left on earth' — pressures victim to act quickly without verification."
+    },
+    {
+      name: "Free Email Provider Abuse",
+      mitre: "T1036",
+      mitreLabel: "Masquerading",
+      severity: "medium",
+      desc: "Reply-To: mrwarrenb55@gmail.com — attacker-controlled Gmail account. Legitimate billionaires do not use free email services."
+    },
+    {
+      name: "Fake Email Headers / Obsolete Software",
+      mitre: "T1036",
+      mitreLabel: "Masquerading",
+      severity: "medium",
+      desc: "X-Mailer shows 'Microsoft Outlook Express 6.00.2600.0000' — software released in 2001, discontinued for years. Obvious fake header used by scammer."
+    },
+    {
+      name: "Home Network Origin",
+      mitre: "T1583",
+      mitreLabel: "Acquire Infrastructure",
+      severity: "low",
+      desc: "Private IP 192.168.0.254 in received chain indicates email originated from a home or small office network, not professional email infrastructure."
+    }
+  ],
+  iocs: [
+    {
+      type: "IP",
+      value: "117.121.214.50",
+      note: "mail.srv.world — Unknown server, likely compromised or malicious"
+    },
+    {
+      type: "IP (Private)",
+      value: "192.168.0.254",
+      note: "Internal/home network — indicates non-professional origin"
+    },
+    {
+      type: "Domain",
+      value: "central.mercfresh.com",
+      note: "Spoofed sender domain — NOT affiliated with Warren Buffett"
+    },
+    {
+      type: "Domain",
+      value: "mail.srv.world",
+      note: "Relay server — unknown reputation"
+    },
+    {
+      type: "Email",
+      value: "mrwarrenb55@gmail.com",
+      note: "Reply-To address — attacker-controlled Gmail account"
+    },
+    {
+      type: "Email",
+      value: "test@central.mercfresh.com",
+      note: "Spoofed sender — 'test' account used"
+    },
+    {
+      type: "Pattern",
+      value: "419 / Nigerian Prince / Advance-Fee Fraud",
+      note: "Classic scam pattern: famous person + large sum + emotional story + request for personal info"
+    },
+    {
+      type: "Pattern",
+      value: "Warren Buffett Impersonation Scam",
+      note: "Well-documented scam variant. Real Warren Buffett has publicly warned about these scams."
+    }
+  ],
+  red_flags_quick_list: [
+    "🚩 Warren Buffett using Gmail? NO — he uses Berkshire Hathaway",
+    "🚩 $5 million to a random stranger? NO — doesn't happen",
+    "🚩 Writing from hospital computer? NO — emotional manipulation",
+    "🚩 Wife died of cancer + I'm dying too? NO — classic scam script",
+    "🚩 Outlook Express 6.0 in 2023? NO — software from 2001",
+    "🚩 Private IP 192.168.x.x in email trace? NO — came from home network",
+    "🚩 SPF NONE, DKIM NONE, DMARC NONE? NO — no authentication",
+    "🚩 Microsoft sent it to JUNK folder? YES — they already knew"
+  ],
+  recommendation: "BLOCK domain central.mercfresh.com. BLOCK IP 117.121.214.50. Report mrwarrenb55@gmail.com to Google. File abuse report with mail.srv.world hosting provider. User education: No billionaire gives $5 million to random strangers via email. Delete immediately. Do not reply. Do not send personal information."
+},
+{
+  id: "PHI-2026-009",
+  icon: "🍏",
+  title: "Apple iCloud Storage Full Scam — Credit Card Phishing (Impersonating Apple)",
+  date: "July 2023",
+  riskLevel: "HIGH",
+  status: "Documented",
+  // reportFile: "SOC_Apple_iCloud_Phishing_Analysis.pdf",
+  summary: "Phishing email impersonating Apple iCloud. Claims storage is full and offers 50GB free, but requires credit card information for 'Apple ID validation'. From address spoofs Otto.de (German retailer) while content impersonates Apple. All authentication checks failed. Links go to malicious firiri.shop domain via t.co shortener.",
+  fullDescription: "Phishing email targeting German-speaking users, impersonating Apple iCloud. Email claims the user's iCloud storage is full and offers 50GB free as part of a 'loyalty program'. To claim the free storage, the user must enter credit card information for 'Apple ID validation' with a false promise that no charges will be made.\n\nFull analysis: From address spoofs newsletter.otto.de (German retail company) while the email content displays Apple logo and branding — complete mismatch. SPF SOFTFAIL, DKIM NONE, DMARC FAIL. Reply-To and Return-Point to winner-win.art — suspicious domain. Sender IP 80.96.157.91 traced to unknown host with random gibberish hostname 'qktfxzqsjmwfnksijbkrjpmhgadbswa.whskk2'. Links use t.co (Twitter shortener) to hide final destination: bsq2.firiri.shop (malicious .shop domain). Email contains tracking pixel to confirm open rates.\n\nVerdict: CONFIRMED PHISHING — Credential Harvesting (Apple ID / Credit Card)",
+  emailDetails: {
+    Subject: "phishing@pot, 𝕀𝕙𝕣 𝕚ℂ𝕝𝕠𝕦𝕕-𝕊𝕡𝕖𝕚𝕔𝕙𝕖𝕣 𝕚𝕤𝕥 𝕧𝕠𝕝𝕝",
+    From: "Dringend->Icloud📱❌ <otto-newsletter@newsletter.otto.de>",
+    "Reply-To": "reply_to@winner-win.art",
+    To: "phishing@pot",
+    Cc: "phishing@pot",
+    "Return-Path": "return@winner-win.art",
+    Date: "Sat, 29 Jul 2023 19:16:53 +0200",
+    Sender: "hello <otto-newsletter@newsletter.otto.de>",
+    "Sender-IP": "80.96.157.91",
+    "X-Sender-IP": "80.96.157.91",
+    "X-SID-PRA": "OTTO-NEWSLETTER@NEWSLETTER.OTTO.DE",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "5",
+    "X-Microsoft-Antispam-BCL": "8",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:I",
+    "Message-Id": "<naCPZlN.28948.177+=phishing@pot@winner-win.art>",
+    Finding: "CONFIRMED PHISHING — Apple iCloud Impersonation / Credit Card Harvesting"
+  },
+  headerAnalysis: {
+    SPF: "SOFTFAIL",
+    DKIM: "NONE",
+    DMARC: "FAIL (action=none header.from=newsletter.otto.de)",
+    CompAuth: "Not present",
+    "Received-SPF": "SoftFail (domain of transitioning winner-win.art discourages use of 80.96.157.91 as permitted sender)",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "5 (Spam)",
+    "X-Microsoft-Antispam-BCL": "8 (Very high bulk/spam confidence)",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:I (Inbox delivery despite spam flags)",
+    Conclusion: "All authentication checks failed. Microsoft BCL 8 indicates very high spam confidence."
+  },
+  is_phishing: true,
+  verdict: "CONFIRMED PHISHING — Apple iCloud Impersonation / Credit Card Harvesting",
+  reasons_phishing: [
+    "SPF SOFTFAIL — sender IP not fully authorized",
+    "DKIM NONE — no digital signature",
+    "DMARC FAIL — domain authentication failed",
+    "From domain is otto.de (German retailer) but email claims to be Apple iCloud — COMPLETE MISMATCH",
+    "Reply-To and Return-Path use winner-win.art — different from From domain",
+    "winner-win.art is a suspicious .art TLD (cheap, easy to register)",
+    "Sender hostname is random gibberish: qktfxzqsjmwfnksijbkrjpmhgadbswa.whskk2",
+    "Sender IP 80.96.157.91 — unknown, not Apple infrastructure",
+    "Links use t.co (Twitter shortener) to hide real destination",
+    "Real destination: bsq2.firiri.shop — malicious .shop domain",
+    "Email asks for credit card information — credential harvesting",
+    "Fake promise: 'We will not charge any amount' — classic scam lie",
+    "Contains tracking pixel to confirm email opens",
+    "Subject contains phishing@pot — test/honeypot address",
+    "Subject uses fancy Unicode bold characters — filter evasion tactic",
+    "Microsoft BCL 8 — very high spam confidence",
+    "Microsoft SCL 5 — flagged as spam"
+  ],
+  attacks: [
+    {
+      name: "Brand Impersonation — Apple iCloud",
+      mitre: "T1566.002",
+      mitreLabel: "Spearphishing Link",
+      severity: "critical",
+      desc: "Email displays Apple logo and iCloud branding but is sent from otto.de domain. Complete brand mismatch designed to trick users who see the Apple logo and don't check the sender address."
+    },
+    {
+      name: "Credential Harvesting — Credit Card / Apple ID",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "critical",
+      desc: "Email explicitly asks users to enter credit card information for 'Apple ID validation'. This is the primary goal — stealing credit card details and Apple ID credentials."
+    },
+    {
+      name: "Domain Spoofing — Otto.de",
+      mitre: "T1566.001",
+      mitreLabel: "Phishing: Spearphishing Attachment",
+      severity: "high",
+      desc: "From address spoofs newsletter.otto.de — a legitimate German retail company. SPF SOFTFAIL, DKIM NONE, DMARC FAIL means the email is not authorized by Otto."
+    },
+    {
+      name: "URL Obfuscation — t.co Shortener",
+      mitre: "T1566.002",
+      mitreLabel: "Spearphishing Link",
+      severity: "medium",
+      desc: "All buttons and links use t.co (Twitter link shortener) to hide the malicious destination bsq2.firiri.shop."
+    },
+    {
+      name: "Malicious Infrastructure — firiri.shop",
+      mitre: "T1583.003",
+      mitreLabel: "Acquire Infrastructure: VPS",
+      severity: "high",
+      attacker: "bsq2.firiri.shop — malicious phishing domain",
+      desc: "The phishing landing page is hosted on firiri.shop — a cheap .shop TLD commonly used by scammers. Domain should be blocked."
+    },
+    {
+      name: "Social Engineering — Urgency + Free Offer",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "high",
+      desc: "Claims iCloud storage is full (urgency) and offers 50GB free (too good to be true). Combined with 'Dringend' (Urgent) in display name."
+    },
+    {
+      name: "Tracking Pixel — Open Rate Tracking",
+      mitre: "T1189",
+      mitreLabel: "Drive-by Compromise",
+      severity: "low",
+      desc: "1x1 hidden image from firiri.shop confirms to the scammer that the email was opened and the victim is active."
+    },
+    {
+      name: "Filter Evasion — Unicode Bold Characters",
+      mitre: "T1036",
+      mitreLabel: "Masquerading",
+      severity: "low",
+      desc: "Subject uses mathematical bold characters (𝕀𝕙𝕣) instead of normal text to bypass spam filters."
+    }
+  ],
+  iocs: [
+    {
+      type: "IP",
+      value: "80.96.157.91",
+      note: "Sender IP — Unknown, needs reputation check"
+    },
+    {
+      type: "Domain",
+      value: "winner-win.art",
+      note: "Suspicious .art TLD — used in Reply-To and Return-Path"
+    },
+    {
+      type: "Domain",
+      value: "newsletter.otto.de",
+      note: "Spoofed domain — legitimate German retailer (not involved in scam)"
+    },
+    {
+      type: "Domain",
+      value: "bsq2.firiri.shop",
+      note: "Malicious phishing domain — hosts credential harvesting page"
+    },
+    {
+      type: "Domain",
+      value: "firiri.shop",
+      note: "Malicious .shop TLD — block immediately"
+    },
+    {
+      type: "URL (Shortened)",
+      value: "https://t.co/gDHura2rGc",
+      note: "Twitter shortener hiding malicious destination"
+    },
+    {
+      type: "URL (Malicious)",
+      value: "http://bsq2.firiri.shop/V0RPUjMzbjdPeHRLVlo2RFZ4WXBqZklYbTBnY1Btc1R5aUp4cWNUMzNOUjJnNDNjUUg5NUt2U1hYQkFpYlIyVi82NHBrdDVpRnhPdG1tQWlZbWVWMUE9PQ__",
+      note: "Base64-encoded phishing page"
+    },
+    {
+      type: "Email",
+      value: "reply_to@winner-win.art",
+      note: "Attacker-controlled reply address"
+    },
+    {
+      type: "Email",
+      value: "return@winner-win.art",
+      note: "Attacker-controlled return path"
+    },
+    {
+      type: "Pattern",
+      value: "Apple iCloud Storage Phishing",
+      note: "Well-known phishing variant — fake storage alerts asking for credit card"
+    },
+    {
+      type: "Pattern",
+      value: "phishing@pot in subject and Message-Id",
+      note: "Indicates security researcher submission or honeypot"
+    }
+  ],
+  red_flags_quick_list: [
+    "🚩 Apple email from @otto.de? NO — Otto is a German RETAILER",
+    "🚩 Apple using t.co shortener? NO — they use their own domains",
+    "🚩 Apple using .shop domain? NO — they use apple.com or icloud.com",
+    "🚩 Asking for credit card via email? NO — Apple never does this",
+    "🚩 'We won't charge you' — classic scam promise",
+    "🚩 Random gibberish hostname in Received line? YES — scammer infrastructure",
+    "🚩 SPF SOFTFAIL, DKIM NONE, DMARC FAIL? YES — all failed",
+    "🚩 Tracking pixel in email? YES — scammers tracking opens",
+    "🚩 Unicode bold characters in subject? YES — filter evasion"
+  ],
+  what_apple_actually_does: [
+    "Apple sends iCloud storage alerts from @icloud.com or @apple.com",
+    "Apple NEVER asks for credit card information via email",
+    "Apple NEVER uses link shorteners (t.co, bit.ly, etc.) for account alerts",
+    "Apple NEVER offers 'free storage' via email links",
+    "Apple always directs you to log in directly at iCloud.com, not click email links"
+  ],
+  recommendation: "BLOCK domains: winner-win.art, firiri.shop, bsq2.firiri.shop. BLOCK IP 80.96.157.91. Report malicious URLs to Twitter (t.co abuse) and to Google Safe Browsing. User education: Apple will never ask for credit card information via email. Always go directly to iCloud.com to check storage. Never click links in unexpected emails. Delete immediately."
+},
+
+{
+  id: "PHI-2026-010",
+  icon: "📎",
+  title: "PayPal Invoice Scam — Malicious PDF Attachment (Credential/Financial Harvesting)",
+  date: "August 2023",
+  riskLevel: "HIGH",
+  status: "Documented",
+  // reportFile: "SOC_PayPal_PDF_Phishing_Analysis.pdf",
+  summary: "Phishing email impersonating PayPal with a malicious PDF attachment. Email body is empty to evade filters. PDF named 'DocumentActionRequired-(PP)#...pdf' designed to look like an official PayPal invoice. Sender domain is freeducation.co.uk (UK education), not PayPal. SPF NONE, DKIM passed via Google, DMARC NONE. Email delivered to Inbox (SCL 1, dest:I).",
+  fullDescription: "Phishing email targeting PayPal users. The email comes from cscservdab-01774233358@freeducation.co.uk with display name 'support@inlt.payp... .com' (truncated to look like PayPal). The email body is completely empty — a technique used to bypass spam filters that scan email text. The malicious content is contained in a PDF attachment named 'DocumentActionRequired-(PP)#645764584 (11).pdf'.\n\nFull analysis: SPF NONE, DKIM PASS (but via Google's gappssmtp.com, not proof of legitimacy), DMARC NONE. X-SID-Result NONE. Microsoft SCL 1 (low spam score) and dest:I (Inbox delivery) — this email likely reached the user's inbox. The PDF contains a PayPal logo and fake invoice/document requesting action. Victims are likely asked to call a phone number or visit a phishing website to enter credentials or financial information.\n\nVerdict: CONFIRMED PHISHING — Malicious PDF Attachment (PayPal Impersonation)",
+  emailDetails: {
+    Subject: "Action required for validate. Ref-325234325",
+    From: "\"support@inlt.payp... .com\" <cscservdab-01774233358@freeducation.co.uk>",
+    To: "undisclosed-recipients:",
+    Bcc: "phishing@pot",
+    "Return-Path": "cscservdab-01774233358@freeducation.co.uk",
+    Date: "Mon, 7 Aug 2023 04:55:46 +0800",
+    "Message-ID": "<CADi0ko-tPf0tWWHSJoXxS68EBrbkU9AX8ki1wjstOd93E6Hw5w@mail.gmail.com>",
+    "Sender-IP": "209.85.160.41",
+    "X-Sender-IP": "209.85.160.41",
+    "X-SID-PRA": "CSCSERVDAB-01774233358@FREEDUCATION.CO.UK",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "1",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:I",
+    "Attachment": "DocumentActionRequired-(PP)#645764584 (11).pdf (application/pdf)",
+    "Email Body": "Empty (only HTML wrapper)",
+    Finding: "CONFIRMED PHISHING — Malicious PDF Attachment"
+  },
+  headerAnalysis: {
+    SPF: "NONE",
+    DKIM: "PASS (but from freeducation-co-uk.20221208.gappssmtp.com — Google, not the claimed domain)",
+    DMARC: "NONE",
+    CompAuth: "Not present",
+    "Received-SPF": "None (freeducation.co.uk does not designate permitted sender hosts)",
+    "X-SID-Result": "NONE",
+    "X-MS-Exchange-Organization-SCL": "1 (Low spam score — dangerous, went to Inbox)",
+    "X-Microsoft-Antispam-Mailbox-Delivery": "dest:I (Inbox delivery)",
+    "X-Microsoft-Antispam-BCL": "0",
+    Conclusion: "Email sent via Google infrastructure. SPF/DMARC failures indicate spoofing. Low SCL allowed delivery to Inbox."
+  },
+  is_phishing: true,
+  verdict: "CONFIRMED PHISHING — Malicious PDF Attachment (PayPal Impersonation)",
+  reasons_phishing: [
+    "From domain is freeducation.co.uk (UK education) — NOT PayPal",
+    "Display name tries to look like PayPal but is truncated",
+    "SPF NONE — no authorization for sending IP",
+    "DMARC NONE — no domain protection",
+    "Email body is completely empty — evasion technique",
+    "Contains PDF attachment named to look like PayPal document",
+    "PDF likely contains fake invoice/phishing content",
+    "X-SID-Result NONE — no sender validation",
+    "Recipient is 'undisclosed-recipients' + Bcc — hides real targets"
+  ],
+  attacks: [
+    {
+      name: "Malicious PDF Attachment",
+      mitre: "T1566.001",
+      mitreLabel: "Phishing: Spearphishing Attachment",
+      severity: "critical",
+      desc: "Email contains a PDF attachment named 'DocumentActionRequired-(PP)#645764584 (11).pdf'. The PDF likely contains a fake PayPal invoice or notification designed to trick the victim into calling a phone number or visiting a phishing website to enter credentials/financial information."
+    },
+    {
+      name: "Brand Impersonation — PayPal",
+      mitre: "T1566.002",
+      mitreLabel: "Spearphishing Link",
+      severity: "critical",
+      desc: "Email impersonates PayPal using display name 'support@inlt.payp... .com' and PDF filename with '(PP)' to suggest PayPal. The PDF likely contains PayPal branding."
+    },
+    {
+      name: "Domain Spoofing — freeducation.co.uk",
+      mitre: "T1566.001",
+      mitreLabel: "Phishing: Spearphishing Attachment",
+      severity: "high",
+      desc: "Sender domain is freeducation.co.uk — a legitimate UK education domain (likely compromised or impersonated). SPF NONE and DMARC NONE allowed this spoof to succeed."
+    },
+    {
+      name: "Empty Email Body — Filter Evasion",
+      mitre: "T1036",
+      mitreLabel: "Masquerading",
+      severity: "medium",
+      desc: "Email body is completely empty (only HTML wrapper with <br>). This technique is used to bypass spam filters that scan email text for malicious keywords."
+    },
+    {
+      name: "Bcc Phishing",
+      mitre: "T1566",
+      mitreLabel: "Phishing",
+      severity: "medium",
+      desc: "Email sent to 'undisclosed-recipients:' with Bcc: phishing@pot. Hides the true recipients from each other."
+    }
+  ],
+  iocs: [
+    {
+      type: "IP",
+      value: "209.85.160.41",
+      note: "Google mail server — legitimate infrastructure abused by scammer"
+    },
+    {
+      type: "Domain",
+      value: "freeducation.co.uk",
+      note: "Spoofed sender domain — legitimate UK education domain (likely compromised or impersonated)"
+    },
+    {
+      type: "Email",
+      value: "cscservdab-01774233358@freeducation.co.uk",
+      note: "Spoofed sender address"
+    },
+    {
+      type: "Filename",
+      value: "DocumentActionRequired-(PP)#645764584 (11).pdf",
+      note: "Malicious PDF attachment — DO NOT OPEN"
+    },
+    {
+      type: "Pattern",
+      value: "PayPal Invoice Phishing",
+      note: "Common scam — fake invoice with malicious PDF or link"
+    },
+    {
+      type: "Pattern",
+      value: "Empty email body with PDF attachment",
+      note: "Filter evasion technique"
+    }
+  ],
+  red_flags_quick_list: [
+    "🚩 Email claims to be PayPal but sent from freeducation.co.uk? NO",
+    "🚩 PayPal using PDF attachments? NO — they use secure messages within your account",
+    "🚩 Email body completely empty? YES — suspicious",
+    "🚩 SPF NONE, DMARC NONE? YES — authentication failed",
+    "🚩 Attachment named 'Action Required' with random numbers? YES — social engineering",
+    "🚩 Sent to 'undisclosed-recipients'? YES — hiding true targets"
+  ],
+  what_paypal_actually_does: [
+    "PayPal sends emails from @paypal.com or @paypal.co.uk",
+    "PayPal never sends unexpected PDF attachments",
+    "PayPal always addresses you by your full name, not 'Customer' or 'User'",
+    "PayPal tells you to log into your account directly, not open attachments",
+    "PayPal has SPF/DKIM/DMARC properly configured — their emails PASS all checks"
+  ],
+  recommendation: "DO NOT OPEN the PDF attachment. DO NOT REPLY. Delete the email immediately. If you have already opened the PDF and entered any information, contact your bank and PayPal immediately. Block domain freeducation.co.uk if not needed. Report the email to PayPal at phishing@paypal.com. User education: Never open unexpected attachments, even if they appear to be from companies you trust. Always log into your accounts directly, not via email links or attachments."
 }
 
 
