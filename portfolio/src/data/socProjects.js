@@ -2,6 +2,7 @@ import homeLabDoc from "../assets/HOME_LAB_DOC.pdf";
 import phishingDoc from "../assets/Phishing_Investigation_PHISH-2026-001.pdf";
 import phishingDoc2 from "../assets/Phishing_Investigation_PHISH-2026-002.pdf";
 import phishingDoc3 from "../assets/Phishing_Investigation_PHISH-2026-003.pdf";
+import phishingDoc5 from "../assets/Phishing_Investigation_PHISH-2026-005.pdf";
 import phishingDoc4 from "../assets/Phishing_Investigation_PHISH-2026-004.pdf";
 import splunkDoc from "../assets/Splunk_SOC_Project_Documentation_001.pdf";
 import networkDoc from "../assets/Network_Analysis_001.pdf";
@@ -534,9 +535,102 @@ export const socProjects = [
     { type: 'File',  value: 'csWuYjyqO2IR.pdf',              note: 'Suspicious PDF attachment' },
     { type: 'Hash',  value: 'N/A',                           note: 'Hash can be extracted from VirusTotal' },
   ],
-}
+},
+
+
+
+{
+  id: 'PHISH-2026-005',
+  icon: '🪙',
+  title: 'Crypto Reward Scam — Ripple / CoinDesk Impersonation',
+  date: 'April 2026',
+  riskLevel: 'HIGH',
+  status: 'Documented',
+  reportFile: phishingDoc5,
+
+  summary: 'Phishing email impersonating CoinDesk newsletter promoting fake Ripple (XRP) rewards using malicious redirect links and email marketing infrastructure abuse.',
+
+  fullDescription:
+    'A phishing email disguised as a CoinDesk crypto newsletter was analysed. The attacker used a legitimate-looking email template and branding to promote a fake Ripple (XRP) reward program. The email encourages users to click on embedded links leading to a suspicious domain (mail123-ripple.net).\n\nFull investigation included: header analysis (SPF/DKIM/DMARC passed), infrastructure analysis (Mailgun service abuse), URL inspection (redirect-based phishing domain), and social engineering tactics. Despite valid authentication, multiple red flags confirm phishing activity.',
+
+  emailDetails: {
+    'Subject':            'More benefits from Ripple with the Allocation Program',
+    'Sender':             'CoinDesk <coindesk@mg.areafellowship.com>',
+    'Return-Path':        'mg.areafellowship.com',
+    'Reply-To':           'Not clearly defined (hidden/mismatch)',
+    'Language':           'English',
+    'Attack Type':        'Phishing — Crypto Scam',
+    'Finding':            'Brand impersonation (CoinDesk + Ripple)',
+  },
+
+  headerAnalysis: {
+    'SPF':        'PASS',
+    'DKIM':       'PASS',
+    'DMARC':      'BESTGUESSPASS',
+    'CompAuth':   'PASS',
+    'Sender IP':  '198.61.254.55',
+    'Service':    'Mailgun (mailgun.net)',
+    'SCL Score':  '9 (High Spam Confidence)',
+    'Conclusion': 'Legitimate service used but flagged as spam → HIGHLY SUSPICIOUS',
+  },
+
+  attacks: [
+    {
+      name: 'Brand Impersonation',
+      mitre: 'T1036.005',
+      mitreLabel: 'Masquerading: Match Legitimate Name',
+      severity: 'critical',
+      desc: 'Email impersonates CoinDesk and references Ripple to gain user trust.',
+    },
+    {
+      name: 'Malicious Redirect URL',
+      mitre: 'T1566.002',
+      mitreLabel: 'Phishing: Spearphishing Link',
+      severity: 'critical',
+      target: 'https://mail123-ripple.net/...',
+      desc: 'Embedded links redirect users to a suspicious domain likely used for credential harvesting or scams.',
+    },
+    {
+      name: 'Email Service Abuse (Mailgun)',
+      mitre: 'T1586.002',
+      mitreLabel: 'Compromise Accounts: Email Accounts',
+      severity: 'medium',
+      desc: 'Attacker uses Mailgun infrastructure to send bulk phishing emails while passing authentication checks.',
+    },
+    {
+      name: 'Tracking Pixel & User Monitoring',
+      mitre: 'T1056',
+      mitreLabel: 'Input Capture / Tracking',
+      severity: 'medium',
+      desc: 'Hidden tracking pixel (1x1 image) used to monitor email opens and user activity.',
+    },
+    {
+      name: 'Social Engineering — Financial Incentive',
+      mitre: 'T1566',
+      mitreLabel: 'Phishing',
+      severity: 'medium',
+      desc: 'Email promises rewards (15%–30% XRP bonus) to create urgency and attract victims.',
+    },
+    {
+      name: 'User Execution via CTA Links',
+      mitre: 'T1204.001',
+      mitreLabel: 'User Execution: Malicious Link',
+      severity: 'medium',
+      desc: 'Multiple CTA links encourage users to click and interact with malicious content.',
+    },
+  ],
+
+  iocs: [
+    { type: 'IP',     value: '198.61.254.55',           note: 'Mailgun sending IP' },
+    { type: 'Domain', value: 'mg.areafellowship.com',   note: 'Sender domain (suspicious usage)' },
+    { type: 'Domain', value: 'mailgun.net',             note: 'Email service provider (abused)' },
+    { type: 'Domain', value: 'mail123-ripple.net',      note: 'Malicious phishing domain' },
+    { type: 'URL',    value: 'https://mail123-ripple.net/...', note: 'Phishing redirect link' },
+    { type: 'Brand',  value: 'CoinDesk / Ripple (XRP)', note: 'Impersonated entities' },
+  ],
+},
       // ── ADD MORE PHISHING CASES HERE IN THE FUTURE ──────────
-      // Copy a case object above, change id/title/date, fill in details.
+     
     ],
   },
 
