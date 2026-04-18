@@ -2,6 +2,7 @@ import homeLabDoc from "../assets/HOME_LAB_DOC.pdf";
 import phishingDoc from "../assets/Phishing_Investigation_PHISH-2026-001.pdf";
 import phishingDoc2 from "../assets/Phishing_Investigation_PHISH-2026-002.pdf";
 import phishingDoc3 from "../assets/Phishing_Investigation_PHISH-2026-003.pdf";
+import phishingDoc4 from "../assets/Phishing_Investigation_PHISH-2026-004.pdf";
 import splunkDoc from "../assets/Splunk_SOC_Project_Documentation_001.pdf";
 import networkDoc from "../assets/Network_Analysis_001.pdf";
 
@@ -447,6 +448,93 @@ export const socProjects = [
           },
         ],
       },
+
+
+
+
+
+
+
+      {
+  id: 'PHISH-2026-004',
+  icon: '📧',
+  title: 'Financial Credit Scam — PDF Attachment Phishing',
+  date: 'April 2026',
+  riskLevel: 'HIGH',
+  status: 'Documented',
+  reportFile: phishingDoc4,
+
+  summary: 'Phishing email impersonating financial credit notification using a PDF attachment generated via IronPDF to lure victims into opening potentially malicious content.',
+
+  fullDescription:
+    'A phishing email written in Portuguese was analysed, claiming a financial balance credit. The message used minimal content and directed the victim to open an attached PDF file. The attachment was Base64 encoded and generated using IronPDF, a tool commonly abused in phishing campaigns.\n\nFull investigation included: email header analysis (SPF/DKIM/DMARC passed but misleading), sender infrastructure analysis (external IP mismatch with Gmail), attachment decoding (Base64 → PDF), and static file inspection. Despite valid authentication, multiple indicators confirmed phishing behavior.',
+
+  emailDetails: {
+    'Subject':            'Liberação de IRPF',
+    'Sender':             'prestonconstance587@gmail.com',
+    'Return-Path':        'prestonconstance587@gmail.com',
+    'Language':           'Portuguese',
+    'Attack Type':        'Phishing — Attachment Delivery',
+    'Finding':            'Financial lure with malicious PDF attachment',
+  },
+
+  headerAnalysis: {
+    'SPF':        'PASS',
+    'DKIM':       'PASS',
+    'DMARC':      'PASS',
+    'CompAuth':   'PASS',
+    'Sender IP':  '20.97.213.223',
+    'Infrastructure': 'External host used despite Gmail sender',
+    'Conclusion': 'Authentication passed but infrastructure mismatch → SUSPICIOUS',
+  },
+
+  attacks: [
+    {
+      name: 'Attachment-Based Phishing',
+      mitre: 'T1566.001',
+      mitreLabel: 'Phishing: Spearphishing Attachment',
+      severity: 'critical',
+      desc: 'Email delivers a PDF attachment designed to trick users into opening malicious or deceptive content.',
+    },
+    {
+      name: 'Legitimate Service Abuse (Gmail)',
+      mitre: 'T1586.002',
+      mitreLabel: 'Compromise Accounts: Email Accounts',
+      severity: 'medium',
+      desc: 'Attacker uses a legitimate Gmail account to bypass SPF, DKIM, and DMARC checks.',
+    },
+    {
+      name: 'Cloud Infrastructure Abuse',
+      mitre: 'T1583.003',
+      mitreLabel: 'Acquire Infrastructure: Virtual Private Server',
+      severity: 'medium',
+      attacker: '20.97.213.223',
+      desc: 'Email originated from cloud-hosted infrastructure (likely Azure), commonly used for phishing campaigns.',
+    },
+    {
+      name: 'Social Engineering — Financial Lure',
+      mitre: 'T1566',
+      mitreLabel: 'Phishing',
+      severity: 'medium',
+      desc: 'Email uses financial incentive (“balance credit”) to create urgency and trick users.',
+    },
+    {
+      name: 'Obfuscated Subject Encoding',
+      mitre: 'T1027',
+      mitreLabel: 'Obfuscated Files or Information',
+      severity: 'low',
+      desc: 'Subject line encoded in Base64 to hide real message content and evade detection.',
+    },
+  ],
+
+  iocs: [
+    { type: 'Email', value: 'prestonconstance587@gmail.com', note: 'Suspicious sender email' },
+    { type: 'IP',    value: '20.97.213.223',                 note: 'Originating IP (cloud infrastructure)' },
+    { type: 'Domain',value: 'gmail.com',                     note: 'Legitimate service abused for phishing' },
+    { type: 'File',  value: 'csWuYjyqO2IR.pdf',              note: 'Suspicious PDF attachment' },
+    { type: 'Hash',  value: 'N/A',                           note: 'Hash can be extracted from VirusTotal' },
+  ],
+}
       // ── ADD MORE PHISHING CASES HERE IN THE FUTURE ──────────
       // Copy a case object above, change id/title/date, fill in details.
     ],
@@ -612,6 +700,8 @@ export const socProjects = [
           },
         ],
       },
+
+
 
       // ── ADD MORE SPLUNK INVESTIGATIONS HERE IN THE FUTURE ───
       // Copy a case object above, change id/title/date, fill in details.
