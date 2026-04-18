@@ -629,6 +629,99 @@ export const socProjects = [
     { type: 'Brand',  value: 'CoinDesk / Ripple (XRP)', note: 'Impersonated entities' },
   ],
 },
+
+{
+  id: "PHI-2026-002",
+  icon: "📧",
+  title: "QuantInsti — Momentum Trading Email (Legitimate Marketing - False Positive)",
+  date: "July 2023",
+  riskLevel: "NONE",
+  status: "Closed - Legitimate Email / Not Phishing",
+  reportFile: "SOC_QuantInsti_False_Positive",
+  summary: "This is a legitimate marketing email from QuantInsti. SPF, DKIM, and DMARC all passed. No malicious links, attachments, or credential harvesting forms detected. The recipient address 'phishing@pot' is anomalous but indicates a security researcher sandbox submission or marketing test, not an attack.",
+  fullDescription: "An email from Raunaq Sahni (raunaq.s@quantinsti.com) promoting a Momentum Trading course in Portuguese was submitted for forensic analysis. The email was addressed to 'phishing@pot', which triggered suspicion.\n\nFull analysis: header inspection revealed SPF PASS (149.72.51.63 permitted by em.quantinsti.com), DKIM PASS (signature verified for quantinsti.com), and DMARC PASS. Sender IP traced to SendGrid (Twilio), a legitimate email marketing platform. HTML content analysis showed no obfuscated scripts, no attachments, no credential forms, and no exploit code. All embedded URLs decoded via CyberChef: SendGrid tracking URLs redirected to legitimate quantinsti.com domains.\n\nVerdict: NOT PHISHING. This is a legitimate marketing email. The anomalous recipient address 'phishing@pot' suggests this was either (1) a security researcher submitting the email to a honeypot/sandbox for analysis, or (2) a misconfigured marketing test email sent to the wrong address.\n\nNo user action required. No blocks needed.",
+  emailDetails: {
+    Subject: "Desvende os Segredos do Momentum Trading em Português",
+    Sender: "Raunaq Sahni <raunaq.s@quantinsti.com>",
+    Recipient: "phishing@pot",
+    "Return-Path": "bounces+13167954-ab87-phishing@pot=hotmail.com@em.quantinsti.com",
+    Date: "Fri, 28 Jul 2023 19:32:27 +0000",
+    "Message-ID": "<USPP9TOgSja8rIXka996_A@geopod-ismtpd-0>",
+    "Sender-IP": "149.72.51.63",
+    "Content-Type": "text/html; charset=iso-8859-1",
+    Language: "Portuguese (Brazil)",
+    Finding: "Legitimate marketing email — NOT phishing"
+  },
+  headerAnalysis: {
+    SPF: "PASS",
+    DKIM: "PASS",
+    DMARC: "PASS",
+    CompAuth: "PASS (reason 100)",
+    "Received-SPF": "Pass (149.72.51.63 permitted by em.quantinsti.com)",
+    "X-SID-Result": "PASS",
+    "X-MS-Exchange-Organization-SCL": "1",
+    "X-Microsoft-Antispam-BCL": "0",
+    Conclusion: "All authentication checks passed. Email is legitimate and authorized by quantinsti.com."
+  },
+  is_phishing: false,
+  verdict: "NOT PHISHING — LEGITIMATE MARKETING EMAIL",
+  reasons_not_phishing: [
+    "SPF check: PASS — email came from authorized server",
+    "DKIM check: PASS — email signature is valid and unmodified",
+    "DMARC check: PASS — domain owner approved this email",
+    "Links: All resolve to quantinsti.com (legitimate company website)",
+    "Attachments: None detected",
+    "Credential harvesting: No login forms or password requests in HTML",
+    "Sender: Real QuantInsti employee (raunaq.s@quantinsti.com)",
+    "Infrastructure: SendGrid — legitimate email marketing platform"
+  ],
+  anomalies_found: [
+    {
+      anomaly: "Recipient address: phishing@pot",
+      explanation: "Not a real user address. Indicates security researcher sandbox submission or marketing test email.",
+      malicious: false
+    },
+    {
+      anomaly: "Return-Path contains malformed syntax: phishing@pot=hotmail.com",
+      explanation: "Unusual formatting. May indicate email was rerouted or manually submitted to sandbox.",
+      malicious: false
+    },
+    {
+      anomaly: "Email language: Portuguese — Sender region: India",
+      explanation: "Language mismatch. QuantInsti is India-based but targets Brazilian Portuguese audience. This is legitimate marketing, not an attack.",
+      malicious: false
+    }
+  ],
+  iocs: [
+    {
+      type: "IP (Legitimate - Whitelist)",
+      value: "149.72.51.63",
+      note: "SendGrid (Twilio) — Legitimate email marketing infrastructure. NOT malicious."
+    },
+    {
+      type: "Domain (Legitimate)",
+      value: "em.quantinsti.com",
+      note: "Authorized SendGrid sending domain for QuantInsti. NOT malicious."
+    },
+    {
+      type: "Domain (Legitimate)",
+      value: "quantinsti.com",
+      note: "Final destination of all links — legitimate trading education company. NOT malicious."
+    },
+    {
+      type: "CDN (Legitimate)",
+      value: "d15k2d11r6t6rl.cloudfront.net",
+      note: "AWS CloudFront — Legitimate image hosting for QuantInsti. NOT malicious."
+    }
+  ],
+  recommendation: "No action required. No blocks needed. This is a false positive."
+}
+
+
+
+
+
+
       // ── ADD MORE PHISHING CASES HERE IN THE FUTURE ──────────
      
     ],
