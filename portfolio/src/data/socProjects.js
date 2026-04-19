@@ -6,7 +6,7 @@ import phishingDoc5 from "../assets/Phishing_Investigation_PHISH-2026-005.pdf";
 import phishingDoc4 from "../assets/Phishing_Investigation_PHISH-2026-004.pdf";
 import splunkDoc from "../assets/Splunk_SOC_Project_Documentation_001.pdf";
 import networkDoc from "../assets/Network_Analysis_001.pdf";
-
+import networkDoc1 from "../assets/Network_Analysis_002.pdf";
 export const socProjects = [
   // ════════════════════════════════════════════════════════════
   //  PROJECT 1 — SOC HOME LAB
@@ -1431,7 +1431,7 @@ export const socProjects = [
         riskLevel: "CRITICAL",
         status: "Documented",
         reportType: 'splunk',
-        // reportFile: splunkDoc,
+        reportFile: splunkDoc,
         summary:
           "Complete 7-phase attack chain detected via Splunk SPL — Port Scan → Brute Force → Mimikatz → Data Exfiltration → Reverse Shell. 8 CRITICAL events across 21 total logs.",
         fullDescription:
@@ -1722,6 +1722,117 @@ export const socProjects = [
         ],
       },
 
+
+      // ── CASE 2 ──────────────────────────────────────────────
+{
+  id: "NET-2026-002",
+  icon: "🕵️‍♂️",
+  title: "Lumma Stealer — Victim Fingerprinting & C2 Communication",
+  date: "January 2026",
+  riskLevel: "HIGH",
+  status: "Documented",
+  reportType: 'network',
+  reportFile: networkDoc1,
+  summary:
+    "Infected Windows host DESKTOP-ES9F3ML (user: gwyatt) detected communicating with Lumma Stealer C2 infrastructure (whitepepper[.]su → 153.92.1[.]49). Victim identified via DHCP, NBNS, and Kerberos analysis.",
+  fullDescription:
+    "SOC exercise from malware-traffic-analysis.net. IDS alert triggered for ET MALWARE Lumma Stealer Victim Fingerprinting Activity from internal host communicating with external server 153.92.1[.]49 over TCP.\n\nPCAP analysis confirmed that Windows workstation DESKTOP-ES9F3ML, assigned to user Gabriel Wyatt (account: gwyatt), was infected and communicating with attacker infrastructure. TLS traffic revealed SNI whitepepper[.]su indicating malicious domain.\n\nPcap file: 2026-01-31-traffic-analysis-exercise.pcap\nExercise source: malware-traffic-analysis.net",
+
+  emailDetails: {
+    "Incident Time (UTC)": "2026-01-27 23:05:00",
+    "Infected Host IP": "10.1.21.58",
+    "MAC Address": "00:21:5d:c8:0e:f2",
+    Hostname: "DESKTOP-ES9F3ML",
+    "AD Domain": "WIN11OFFICE / win11office.com",
+    "User Account": "gwyatt (Gabriel Wyatt)",
+    "C2 Server": "153.92.1[.]49 — TCP port 80/443",
+    Malware: "Lumma Stealer",
+    Severity: "HIGH — DATA EXFILTRATION RISK",
+  },
+
+  headerAnalysis: {
+    "Step 1 — Initial Detection":
+      "Filter: ip.addr == 153.92.1.49 — identified internal host 10.1.21.58 communicating with known malicious IP",
+    "Step 2 — TLS Analysis":
+      "TLS Client Hello (Frame 23728) revealed SNI: whitepepper.su — confirms malicious domain used for C2 communication",
+    "Step 3 — DHCP Analysis":
+      "Filter: dhcp — mapped MAC 00:21:5d:c8:0e:f2 to IP 10.1.21.58 and hostname DESKTOP-ES9F3ML",
+    "Step 4 — NBNS Confirmation":
+      "Filter: nbns — confirmed hostname DESKTOP-ES9F3ML via NetBIOS name resolution traffic",
+    "Step 5 — User Identification":
+      "Filter: kerberos || ntlmssp — revealed username gwyatt associated with system login",
+    "Step 6 — Encrypted Traffic Limitation":
+      "TLSv1.3 encryption prevented visibility into HTTP payloads, confirming modern malware using encrypted C2 channels",
+  },
+
+  attacks: [
+    {
+      name: "Lumma Stealer — Victim Fingerprinting",
+      mitre: "T1082",
+      mitreLabel: "System Information Discovery",
+      severity: "critical",
+      attacker: "153.92.1[.]49 / whitepepper[.]su",
+      target: "10.1.21.58 — DESKTOP-ES9F3ML",
+      desc: "Infected host initiated outbound connections to Lumma Stealer infrastructure. TLS handshake revealed SNI whitepepper.su, indicating victim profiling and system fingerprinting activity.",
+    },
+    {
+      name: "Encrypted C2 Communication",
+      mitre: "T1071.001",
+      mitreLabel: "Web Protocols",
+      severity: "high",
+      attacker: "whitepepper[.]su",
+      target: "TCP 443 (TLSv1.3)",
+      desc: "Malware used TLSv1.3 encrypted communication to hide C2 traffic, preventing payload inspection and evading detection.",
+    },
+    {
+      name: "Infected Host Identification — DHCP Forensics",
+      mitre: "T1016",
+      mitreLabel: "System Network Configuration Discovery",
+      severity: "medium",
+      desc: "DHCP traffic revealed MAC address 00:21:5d:c8:0e:f2, IP 10.1.21.58, and hostname DESKTOP-ES9F3ML — enabling full host identification.",
+    },
+    {
+      name: "User Account Identification — Kerberos",
+      mitre: "T1078",
+      mitreLabel: "Valid Accounts",
+      severity: "medium",
+      desc: "Kerberos authentication traffic revealed username gwyatt mapped to user Gabriel Wyatt — compromised account identified.",
+    },
+  ],
+
+  iocs: [
+    {
+      type: "IP",
+      value: "153.92.1[.]49",
+      note: "Lumma Stealer C2 server",
+    },
+    {
+      type: "Domain",
+      value: "whitepepper[.]su",
+      note: "Malicious domain from TLS SNI",
+    },
+    {
+      type: "IP",
+      value: "10.1.21.58",
+      note: "Infected workstation — DESKTOP-ES9F3ML",
+    },
+    {
+      type: "MAC",
+      value: "00:21:5d:c8:0e:f2",
+      note: "Infected system network interface",
+    },
+    {
+      type: "User",
+      value: "gwyatt (Gabriel Wyatt)",
+      note: "Compromised user account",
+    },
+    {
+      type: "Protocol",
+      value: "TLSv1.3",
+      note: "Encrypted C2 communication channel",
+    },
+  ],
+},
       // ── ADD MORE NETWORK INVESTIGATIONS HERE IN THE FUTURE ──
       // Copy a case object above, change id/title/date, fill in details.
     ],
