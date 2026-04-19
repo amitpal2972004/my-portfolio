@@ -693,83 +693,349 @@ async function downloadReport(project, caseData) {
     if (ok) return;
   }
 
-  // 3 — fallback: generate .txt (for any project without a docx yet)
-  const attacks = (caseData.attacks || [])
-    .map(
-      (a) => `\n  [${a.severity?.toUpperCase()}] ${a.name}
-  MITRE: ${a.mitre} — ${a.mitreLabel || ""}
-  ${a.desc}`,
-    )
-    .join("\n");
+//   // 3 — fallback: generate .txt (for any project without a docx yet)
+//   const attacks = (caseData.attacks || [])
+//     .map(
+//       (a) => `\n  [${a.severity?.toUpperCase()}] ${a.name}
+//   MITRE: ${a.mitre} — ${a.mitreLabel || ""}
+//   ${a.desc}`,
+//     )
+//     .join("\n");
 
-  const iocBlock = caseData.iocs
-    ? `\nIOCS\n-----\n${caseData.iocs.map((i) => `  [${i.type}] ${i.value} — ${i.note}`).join("\n")}`
-    : "";
+//   const iocBlock = caseData.iocs
+//     ? `\nIOCS\n-----\n${caseData.iocs.map((i) => `  [${i.type}] ${i.value} — ${i.note}`).join("\n")}`
+//     : "";
 
-  const reportTitle = caseData.id
+//   const reportTitle = caseData.id
+//     ? `${project.title} — ${caseData.title}`
+//     : project.title;
+
+//   const content = `
+// ================================================================================
+//   SOC ANALYST REPORT
+//   ${reportTitle}
+//   Analyst: Amit Pal  |  Role Target: SOC Analyst L1
+//   Generated: ${new Date().toLocaleString()}
+// ================================================================================
+
+// OVERVIEW
+// --------
+// ${caseData.fullDescription || caseData.description || project.description}
+
+// ${
+//   caseData.emailDetails
+//     ? `EMAIL DETAILS\n-------------\n${Object.entries(caseData.emailDetails)
+//         .map(([k, v]) => `  ${k.padEnd(16)}: ${v}`)
+//         .join("\n")}`
+//     : ""
+// }
+
+// ${
+//   caseData.headerAnalysis
+//     ? `HEADER ANALYSIS\n---------------\n${Object.entries(
+//         caseData.headerAnalysis,
+//       )
+//         .map(([k, v]) => `  ${k.padEnd(16)}: ${v}`)
+//         .join("\n")}`
+//     : ""
+// }
+
+// ${
+//   project.labMachines
+//     ? `LAB ARCHITECTURE\n-----------------\n${project.labMachines.map((m) => `  ${m.role.padEnd(14)} | ${m.os.padEnd(12)} | ${m.ip.padEnd(16)} | ${m.tools}`).join("\n")}`
+//     : ""
+// }
+
+// FINDINGS / ATTACKS
+// ------------------
+// ${attacks}
+// ${iocBlock}
+
+// CONTACT
+// -------
+//   Email : amitpal2972004@gmail.com
+//   GitHub: https://github.com/amitpal2972004
+
+// ================================================================================
+//   END OF REPORT
+// ================================================================================
+// `;
+//   const blob = new Blob([content], { type: "text/plain" });
+//   const url = URL.createObjectURL(blob);
+//   const a = document.createElement("a");
+//   a.href = url;
+//   a.download = `SOC_Report_${(caseData.id || project.title).replace(/[^a-z0-9]/gi, "_")}.txt`;
+//   document.body.appendChild(a);
+//   a.click();
+//   document.body.removeChild(a);
+//   URL.revokeObjectURL(url);
+// }
+
+
+
+
+
+
+
+
+
+// 3 — fallback: auto-generate rich report from ALL available JSON data
+  const isCase = !!caseData.id && caseData !== project
+
+  const reportTitle = isCase
     ? `${project.title} — ${caseData.title}`
-    : project.title;
+    : project.title
 
+  const fileId = caseData.id || project.id || 'REPORT'
+
+  // ── Attacks / Findings ──────────────────────────────────────
+  const attacksBlock = (caseData.attacks || project.attacks || [])
+    .sort((a, b) => ({ critical: 0, high: 1, medium: 2, low: 3 }[a.severity] ?? 9) - ({ critical: 0, high: 1, medium: 2, low: 3 }[b.severity] ?? 9))
+    .map(a =>
+      `\n  [${(a.severity || 'INFO').toUpperCase()}] ${a.name}
+  MITRE    : ${a.mitre || '—'} — ${a.mitreLabel || ''}
+  ${a.attacker  ? `Attacker : ${a.attacker}` : ''}
+  ${a.target    ? `Target   : ${a.target}` : ''}
+  ${a.command   ? `Command  : ${a.command}` : ''}
+  ${a.tool      ? `Tool     : ${a.tool}` : ''}
+  Detail   : ${a.desc || '—'}`
+    ).join('\n')
+
+  // ── IOCs ─────────────────────────────────────────────────────
+  const iocBlock = (caseData.iocs || project.iocs || []).length > 0
+    ? `\nINDICATORS OF COMPROMISE (IOCs)\n${'─'.repeat(40)}\n` +
+      (caseData.iocs || project.iocs || [])
+        .map(i => `  [${(i.type || 'IOC').padEnd(18)}] ${i.value}\n  ${''.padEnd(21)}↳ ${i.note}`)
+        .join('\n')
+    : ''
+
+  // // ── Email / Case Details ──────────────────────────────────────
+  // const emailBlock = (caseData.emailDetails || project.emailDetails)
+  //   ? `\nEMAIL / CASE DETAILS\n${'─'.repeat(40)}\n` +
+  //     Object.entries(caseData.emailDetails || project.emailDetails || {})
+  //       .map(([k, v]) => `  ${k.padEnd(22)}: ${v}`)
+  //       .join('\n')
+  //   : ''
+
+  // // ── Header / Timeline Analysis ────────────────────────────────
+  // const headerBlock = (caseData.headerAnalysis || project.headerAnalysis)
+  //   ? `\nHEADER / TIMELINE ANALYSIS\n${'─'.repeat(40)}\n` +
+  //     Object.entries(caseData.headerAnalysis || project.headerAnalysis || {})
+  //       .map(([k, v]) => `  ${k.padEnd(22)}: ${v}`)
+  //       .join('\n')
+  //   : ''
+
+// ── Report type config — add new types here as you grow ───────
+  const REPORT_TYPE_CONFIG = {
+    phishing: {
+      reportTitle:   'PHISHING EMAIL ANALYSIS REPORT',
+      detailsLabel:  'EMAIL DETAILS',
+      analysisLabel: 'HEADER ANALYSIS (SPF / DKIM / DMARC)',
+    },
+    splunk: {
+      reportTitle:   'SPLUNK SIEM INVESTIGATION REPORT',
+      detailsLabel:  'INVESTIGATION PARAMETERS',
+      analysisLabel: 'ATTACK PHASE TIMELINE',
+    },
+    network: {
+      reportTitle:   'NETWORK FORENSICS INVESTIGATION REPORT',
+      detailsLabel:  'INCIDENT DETAILS',
+      analysisLabel: 'ANALYSIS METHODOLOGY (WIRESHARK FILTERS)',
+    },
+    homelab: {
+      reportTitle:   'SOC HOME LAB INCIDENT REPORT',
+      detailsLabel:  'LAB ENVIRONMENT DETAILS',
+      analysisLabel: 'DETECTION TIMELINE',
+    },
+    // ── Add new project types below ──────────────────────────────
+    // malware: {
+    //   reportTitle:   'MALWARE ANALYSIS REPORT',
+    //   detailsLabel:  'SAMPLE DETAILS',
+    //   analysisLabel: 'STATIC / DYNAMIC ANALYSIS',
+    // },
+    // osint: {
+    //   reportTitle:   'OSINT INVESTIGATION REPORT',
+    //   detailsLabel:  'TARGET DETAILS',
+    //   analysisLabel: 'INTELLIGENCE GATHERED',
+    // },
+    // vulnscan: {
+    //   reportTitle:   'VULNERABILITY SCAN REPORT',
+    //   detailsLabel:  'SCAN PARAMETERS',
+    //   analysisLabel: 'FINDINGS BREAKDOWN',
+    // },
+  }
+
+  // Resolve type — case first, then parent project, then fallback
+  const resolvedType = caseData.reportType || project.reportType || 'generic'
+
+  const typeConfig = REPORT_TYPE_CONFIG[resolvedType] || {
+    reportTitle:   'SOC / CYBERSECURITY INVESTIGATION REPORT',
+    detailsLabel:  'CASE DETAILS',
+    analysisLabel: 'TECHNICAL ANALYSIS',
+  }
+
+  const { reportTitle: typeReportTitle, detailsLabel, analysisLabel } = typeConfig
+
+  // ── Detect report type from case/project id or parent project ─
+  // const caseId = String(caseData.id || project.id || '')
+  // const projectTitle = String(project.title || '')
+
+  // const isSplunk  = caseId.includes('SPLUNK') || projectTitle.toLowerCase().includes('splunk')
+  // const isPcap    = caseId.includes('NET')    || projectTitle.toLowerCase().includes('pcap') || projectTitle.toLowerCase().includes('wireshark') || projectTitle.toLowerCase().includes('network')
+  // const isHomeLab = caseId.includes('IR-')   || projectTitle.toLowerCase().includes('home lab') || projectTitle.toLowerCase().includes('wazuh')
+  // const isPhishing = caseId.includes('PHI')  || caseId.includes('PHISH') || projectTitle.toLowerCase().includes('phishing')
+
+  // // ── Dynamic section labels based on report type ───────────────
+  // const detailsLabel = isSplunk  ? 'INVESTIGATION PARAMETERS'
+  //                    : isPcap    ? 'INCIDENT DETAILS'
+  //                    : isHomeLab ? 'LAB ENVIRONMENT DETAILS'
+  //                    : isPhishing ? 'EMAIL DETAILS'
+  //                    : 'CASE DETAILS'
+
+  // const analysisLabel = isSplunk  ? 'ATTACK PHASE TIMELINE'
+  //                     : isPcap    ? 'ANALYSIS METHODOLOGY (WIRESHARK FILTERS)'
+  //                     : isHomeLab ? 'DETECTION TIMELINE'
+  //                     : isPhishing ? 'HEADER ANALYSIS (SPF / DKIM / DMARC)'
+  //                     : 'TECHNICAL ANALYSIS'
+
+  // ── Details block (replaces generic EMAIL / CASE DETAILS) ─────
+  const emailBlock = (caseData.emailDetails || project.emailDetails)
+    ? `\n${detailsLabel}\n${'─'.repeat(40)}\n` +
+      Object.entries(caseData.emailDetails || project.emailDetails || {})
+        .map(([k, v]) => `  ${k.padEnd(22)}: ${v}`)
+        .join('\n')
+    : ''
+
+  // ── Analysis block (replaces generic HEADER / TIMELINE) ───────
+  const headerBlock = (caseData.headerAnalysis || project.headerAnalysis)
+    ? `\n${analysisLabel}\n${'─'.repeat(40)}\n` +
+      Object.entries(caseData.headerAnalysis || project.headerAnalysis || {})
+        .map(([k, v]) => `  ${k.padEnd(22)}: ${v}`)
+        .join('\n')
+    : ''
+
+
+  // ── Lab Architecture (Home Lab) ───────────────────────────────
+  const labBlock = project.labMachines
+    ? `\nLAB ARCHITECTURE\n${'─'.repeat(40)}\n` +
+      project.labMachines
+        .map(m => `  ${m.role.padEnd(14)} | ${m.os.padEnd(12)} | ${(m.ip || '').padEnd(16)} | ${m.tools}`)
+        .join('\n')
+    : ''
+
+  // ── Incident Report (Home Lab / SOC) ─────────────────────────
+  const incidentBlock = project.incidentReport
+    ? `\nINCIDENT REPORT\n${'─'.repeat(40)}\n` +
+      Object.entries(project.incidentReport)
+        .map(([k, v]) => `  ${k.padEnd(22)}: ${v}`)
+        .join('\n')
+    : ''
+
+  // ── Verdict & Reasons (Phishing Analysis) ────────────────────
+  const verdictBlock = caseData.verdict
+    ? `\nVERDICT\n${'─'.repeat(40)}\n  ${caseData.verdict}`
+    : ''
+
+  const reasonsBlock = (caseData.reasons_not_phishing || caseData.reasons_phishing || []).length > 0
+    ? `\nREASONS\n${'─'.repeat(40)}\n` +
+      (caseData.reasons_not_phishing || caseData.reasons_phishing || [])
+        .map(r => `  • ${r}`)
+        .join('\n')
+    : ''
+
+  // ── Anomalies Found ───────────────────────────────────────────
+  const anomalyBlock = (caseData.anomalies_found || []).length > 0
+    ? `\nANOMALIES FOUND\n${'─'.repeat(40)}\n` +
+      (caseData.anomalies_found || [])
+        .map(a => `  • ${a.anomaly}\n    Explanation: ${a.explanation}\n    Malicious: ${a.malicious}`)
+        .join('\n')
+    : ''
+
+  // ── Scam Indicators ───────────────────────────────────────────
+  const scamBlock = (caseData.scam_indicators || []).length > 0
+    ? `\nSCAM INDICATORS\n${'─'.repeat(40)}\n` +
+      (caseData.scam_indicators || []).map(s => `  • ${s}`).join('\n')
+    : ''
+
+  // ── Red Flags ─────────────────────────────────────────────────
+  const redFlagBlock = (caseData.red_flags_quick_list || []).length > 0
+    ? `\nRED FLAGS\n${'─'.repeat(40)}\n` +
+      (caseData.red_flags_quick_list || []).map(r => `  ${r}`).join('\n')
+    : ''
+
+  // ── What Legitimate Service Actually Does ────────────────────
+  const legitimateBlock = (caseData.what_paypal_actually_does || caseData.what_apple_actually_does || []).length > 0
+    ? `\nWHAT THE LEGITIMATE SERVICE ACTUALLY DOES\n${'─'.repeat(40)}\n` +
+      (caseData.what_paypal_actually_does || caseData.what_apple_actually_does || [])
+        .map(r => `  • ${r}`).join('\n')
+    : ''
+
+  // ── Recommendation ────────────────────────────────────────────
+  const recommendationBlock = caseData.recommendation
+    ? `\nRECOMMENDATION\n${'─'.repeat(40)}\n  ${caseData.recommendation}`
+    : ''
+
+  // ── Tools ─────────────────────────────────────────────────────
+  const toolsBlock = (caseData.tools || project.tools || []).length > 0
+    ? `\nTOOLS USED\n${'─'.repeat(40)}\n  ` +
+      (caseData.tools || project.tools || []).join(' · ')
+    : ''
+
+  // ── Build final report ────────────────────────────────────────
   const content = `
 ================================================================================
-  SOC ANALYST REPORT
+ ${typeReportTitle}
   ${reportTitle}
-  Analyst: Amit Pal  |  Role Target: SOC Analyst L1
+  Case ID  : ${fileId}
+  Analyst  : Amit Pal  |  amitpal2972004@gmail.com
   Generated: ${new Date().toLocaleString()}
+  GitHub   : https://github.com/amitpal2972004
 ================================================================================
 
 OVERVIEW
---------
-${caseData.fullDescription || caseData.description || project.description}
+${'─'.repeat(40)}
+${caseData.fullDescription || caseData.description || project.fullDescription || project.description || '—'}
 
-${
-  caseData.emailDetails
-    ? `EMAIL DETAILS\n-------------\n${Object.entries(caseData.emailDetails)
-        .map(([k, v]) => `  ${k.padEnd(16)}: ${v}`)
-        .join("\n")}`
-    : ""
-}
+${caseData.summary ? `SUMMARY\n${'─'.repeat(40)}\n${caseData.summary}` : ''}
 
-${
-  caseData.headerAnalysis
-    ? `HEADER ANALYSIS\n---------------\n${Object.entries(
-        caseData.headerAnalysis,
-      )
-        .map(([k, v]) => `  ${k.padEnd(16)}: ${v}`)
-        .join("\n")}`
-    : ""
-}
+${emailBlock}
+${headerBlock}
+${labBlock}
+FINDINGS & MITRE ATT&CK MAPPING
+${'─'.repeat(40)}
+${attacksBlock || '  No attack data available.'}
 
-${
-  project.labMachines
-    ? `LAB ARCHITECTURE\n-----------------\n${project.labMachines.map((m) => `  ${m.role.padEnd(14)} | ${m.os.padEnd(12)} | ${m.ip.padEnd(16)} | ${m.tools}`).join("\n")}`
-    : ""
-}
-
-FINDINGS / ATTACKS
-------------------
-${attacks}
 ${iocBlock}
-
-CONTACT
--------
-  Email : amitpal2972004@gmail.com
-  GitHub: https://github.com/amitpal2972004
+${incidentBlock}
+${verdictBlock}
+${reasonsBlock}
+${anomalyBlock}
+${scamBlock}
+${redFlagBlock}
+${legitimateBlock}
+${recommendationBlock}
+${toolsBlock}
 
 ================================================================================
-  END OF REPORT
+  END OF REPORT — ${reportTitle}
 ================================================================================
-`;
-  const blob = new Blob([content], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `SOC_Report_${(caseData.id || project.title).replace(/[^a-z0-9]/gi, "_")}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+`.replace(/\n{3,}/g, '\n\n').trim()  // collapse extra blank lines
+
+  const blob = new Blob([content], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `SOC_Report_${String(fileId).replace(/[^a-z0-9]/gi, '_')}.txt`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
 }
+
+
+
+
+
 
 /* ─── MAIN POPUP COMPONENT ─── */
 function Popup({ project, onClose }) {

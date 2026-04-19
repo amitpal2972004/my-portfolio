@@ -16,6 +16,7 @@ export const socProjects = [
     icon: "🛡️",
     title: "SOC Home Lab — Wazuh & TheHive",
     subtitle: "COMPLETE SOC ENVIRONMENT · 4 VMs",
+    reportType: 'homelab',
     description:
       "Full Security Operations Centre with Kali attacker, Windows 10 victim, Wazuh SIEM, and TheHive case management. Simulated 3 real-world attacks with 100% detection coverage.",
     fullDescription:
@@ -131,6 +132,7 @@ export const socProjects = [
     description:
       "A growing collection of real phishing email investigations. Each case includes full header analysis, IP reputation, URL inspection, IOC extraction, and MITRE ATT&CK mapping.",
     isCollection: true,
+    reportType: 'phishing',
     tools: [
       "CyberChef",
       "AbuseIPDB",
@@ -148,6 +150,7 @@ export const socProjects = [
         date: "March 2026",
         riskLevel: "HIGH",
         status: "Documented",
+        reportType: 'phishing',
         reportFile: phishingDoc,
         summary:
           "Phishing email impersonating Banco Bradesco to steal banking credentials via fake rewards link.",
@@ -222,6 +225,7 @@ export const socProjects = [
         date: "April 2026",
         riskLevel: "HIGH",
         status: "Documented",
+        reportType: 'phishing',
         reportFile: phishingDoc2,
         summary:
           "Phishing email impersonating Microsoft Account security alert. Used fear + urgency tactics (fake Russia login) to steal credentials via thebandalisty.com.",
@@ -347,6 +351,7 @@ export const socProjects = [
         date: "April 2026",
         riskLevel: "HIGH",
         status: "Documented",
+        reportType: 'phishing',
         reportFile: phishingDoc3,
         summary:
           "Phishing email promoting solar panel offers using tracking links and domain spoofing to lure users into clicking malicious redirects.",
@@ -463,6 +468,7 @@ export const socProjects = [
   date: 'April 2026',
   riskLevel: 'HIGH',
   status: 'Documented',
+  reportType: 'phishing',
   reportFile: phishingDoc4,
 
   summary: 'Phishing email impersonating financial credit notification using a PDF attachment generated via IronPDF to lure victims into opening potentially malicious content.',
@@ -545,6 +551,7 @@ export const socProjects = [
   title: 'Crypto Reward Scam — Ripple / CoinDesk Impersonation',
   date: 'April 2026',
   riskLevel: 'HIGH',
+  reportType: 'phishing',
   status: 'Documented',
   reportFile: phishingDoc5,
 
@@ -636,6 +643,7 @@ export const socProjects = [
   title: "QuantInsti — Momentum Trading Email (Legitimate Marketing - False Positive)",
   date: "July 2023",
   riskLevel: "NONE",
+  reportType: 'phishing',
   status: "Closed - Legitimate Email / Not Phishing",
   // reportFile: "SOC_QuantInsti_False_Positive",
   summary: "This is a legitimate marketing email from QuantInsti. SPF, DKIM, and DMARC all passed. No malicious links, attachments, or credential harvesting forms detected. The recipient address 'phishing@pot' is anomalous but indicates a security researcher sandbox submission or marketing test, not an attack.",
@@ -724,7 +732,8 @@ export const socProjects = [
   date: "August 2023",
   riskLevel: "HIGH",
   status: "Documented",
-  reportFile: "SOC_Elizabeth_Ray_Phishing_Analysis.pdf",
+  reportType: 'phishing',
+  // reportFile: "SOC_Elizabeth_Ray_Phishing_Analysis.pdf",
   summary: "Classic advance-fee fraud (419 scam) email impersonating a dying widow seeking a partner to handle 'allocated funds'. All email authentication checks failed. Sender spoofed, infrastructure compromised, and social engineering uses cancer/urgency tactics.",
   fullDescription: "Email from 'shore@suksapan.or.th' claiming to be Elizabeth Ray, a woman dying of cancer seeking a partner to handle funds from her late husband. This is a classic 419/Nigerian Prince advance-fee fraud scam.\n\nFull analysis: header inspection revealed SPF SOFTFAIL, DKIM NONE, DMARC NONE, and COMPAUTH FAIL. Sender IP 202.129.206.234 traced to Thailand (host4.ns.co.th). Email chain shows relay through compromised Thai hosting provider. Return-Path and From mismatch. Reply-To set to elizabethray993@gmail.com (Google address) — clear red flag. Content uses emotional manipulation (cancer, limited time, late husband) and urgency tactics. HTML and plain text versions both present with identical scam message.\n\nVerdict: CONFIRMED PHISHING/SCAM. This is an advance-fee fraud scheme designed to trick victims into responding, then extracting money under false pretenses (legal fees, transfer fees, taxes, etc.).",
   emailDetails: {
@@ -874,6 +883,7 @@ export const socProjects = [
   date: "August 2023",
   riskLevel: "HIGH",
   status: "Documented",
+  reportType: 'phishing',
   // reportFile: "SOC_Warren_Buffett_Scam_Analysis.pdf",
   summary: "Classic 419 advance-fee fraud impersonating Warren Buffett. Claims $5 million donation but requests personal information (name, address, phone). All authentication checks failed. Uses emotional manipulation (cancer, death, dying in hospital) and authority impersonation (Warren Buffett).",
   fullDescription: "Email impersonating Warren Buffett, the famous billionaire investor, claiming the recipient has been selected for a $5 million donation. The scammer uses real news articles about Buffett's charity work to appear legitimate. Email requests personal information including full name, address, and phone number — the first step in an advance-fee fraud scheme where victims will later be asked to pay 'fees' or 'taxes' to release the non-existent funds.\n\nFull analysis: SPF NONE, DKIM NONE, DMARC NONE, COMPAUTH FAIL. Sender IP 117.121.214.50 traced to unknown server (mail.srv.world). Private IP 192.168.0.254 in received chain indicates home network origin. Reply-To set to mrwarrenb55@gmail.com — free Gmail account. X-Mailer shows Outlook Express 6.0 (released 2001) — obvious fake header. Microsoft SCL 5 and dest:J confirm delivery to junk folder.\n\nVerdict: CONFIRMED PHISHING / ADVANCE-FEE FRAUD (419 SCAM) — Impersonating Warren Buffett.",
@@ -1047,6 +1057,7 @@ export const socProjects = [
   date: "July 2023",
   riskLevel: "HIGH",
   status: "Documented",
+  reportType: 'phishing',
   // reportFile: "SOC_Apple_iCloud_Phishing_Analysis.pdf",
   summary: "Phishing email impersonating Apple iCloud. Claims storage is full and offers 50GB free, but requires credit card information for 'Apple ID validation'. From address spoofs Otto.de (German retailer) while content impersonates Apple. All authentication checks failed. Links go to malicious firiri.shop domain via t.co shortener.",
   fullDescription: "Phishing email targeting German-speaking users, impersonating Apple iCloud. Email claims the user's iCloud storage is full and offers 50GB free as part of a 'loyalty program'. To claim the free storage, the user must enter credit card information for 'Apple ID validation' with a false promise that no charges will be made.\n\nFull analysis: From address spoofs newsletter.otto.de (German retail company) while the email content displays Apple logo and branding — complete mismatch. SPF SOFTFAIL, DKIM NONE, DMARC FAIL. Reply-To and Return-Point to winner-win.art — suspicious domain. Sender IP 80.96.157.91 traced to unknown host with random gibberish hostname 'qktfxzqsjmwfnksijbkrjpmhgadbswa.whskk2'. Links use t.co (Twitter shortener) to hide final destination: bsq2.firiri.shop (malicious .shop domain). Email contains tracking pixel to confirm open rates.\n\nVerdict: CONFIRMED PHISHING — Credential Harvesting (Apple ID / Credit Card)",
@@ -1246,6 +1257,7 @@ export const socProjects = [
   date: "August 2023",
   riskLevel: "HIGH",
   status: "Documented",
+  reportType: 'phishing',
   // reportFile: "SOC_PayPal_PDF_Phishing_Analysis.pdf",
   summary: "Phishing email impersonating PayPal with a malicious PDF attachment. Email body is empty to evade filters. PDF named 'DocumentActionRequired-(PP)#...pdf' designed to look like an official PayPal invoice. Sender domain is freeducation.co.uk (UK education), not PayPal. SPF NONE, DKIM passed via Google, DMARC NONE. Email delivered to Inbox (SCL 1, dest:I).",
   fullDescription: "Phishing email targeting PayPal users. The email comes from cscservdab-01774233358@freeducation.co.uk with display name 'support@inlt.payp... .com' (truncated to look like PayPal). The email body is completely empty — a technique used to bypass spam filters that scan email text. The malicious content is contained in a PDF attachment named 'DocumentActionRequired-(PP)#645764584 (11).pdf'.\n\nFull analysis: SPF NONE, DKIM PASS (but via Google's gappssmtp.com, not proof of legitimacy), DMARC NONE. X-SID-Result NONE. Microsoft SCL 1 (low spam score) and dest:I (Inbox delivery) — this email likely reached the user's inbox. The PDF contains a PayPal logo and fake invoice/document requesting action. Victims are likely asked to call a phone number or visit a phishing website to enter credentials or financial information.\n\nVerdict: CONFIRMED PHISHING — Malicious PDF Attachment (PayPal Impersonation)",
@@ -1400,6 +1412,7 @@ export const socProjects = [
     description:
       "A growing collection of security log analysis investigations using Splunk Enterprise. Each case covers SPL query building, multi-phase attack correlation, MITRE ATT&CK mapping, and incident reporting.",
     isCollection: true,
+    reportType: 'splunk',
     tools: [
       "Splunk Enterprise 10.0.1",
       "SPL",
@@ -1417,7 +1430,8 @@ export const socProjects = [
         date: "April 2026",
         riskLevel: "CRITICAL",
         status: "Documented",
-        reportFile: splunkDoc,
+        reportType: 'splunk',
+        // reportFile: splunkDoc,
         summary:
           "Complete 7-phase attack chain detected via Splunk SPL — Port Scan → Brute Force → Mimikatz → Data Exfiltration → Reverse Shell. 8 CRITICAL events across 21 total logs.",
         fullDescription:
@@ -1568,6 +1582,7 @@ export const socProjects = [
     description:
       "A growing collection of network traffic investigations using Wireshark and pcap analysis. Each case covers protocol inspection, C2 detection, infected host identification, IOC extraction, and MITRE ATT&CK mapping.",
     isCollection: true,
+    reportType: 'network',
     tools: [
       "Wireshark",
       "PCAP Analysis",
@@ -1586,6 +1601,7 @@ export const socProjects = [
         date: "February 2026",
         riskLevel: "HIGH",
         status: "Documented",
+        reportType: 'network',
         reportFile: networkDoc,
         summary:
           "Infected Windows host DESKTOP-TEYQ2NR (user: brolf) detected beaconing to C2 45.131.214.85 via NetSupport Manager RAT v1.3. Full host identified via DHCP, NBNS, and Kerberos pcap analysis.",
