@@ -7,6 +7,7 @@ import phishingDoc4 from "../assets/Phishing_Investigation_PHISH-2026-004.pdf";
 import splunkDoc from "../assets/Splunk_SOC_Project_Documentation_001.pdf";
 import networkDoc from "../assets/Network_Analysis_001.pdf";
 import networkDoc1 from "../assets/Network_Analysis_002.pdf";
+import networkDoc3 from "../assets/Network_Analysis_003.pdf";
 export const socProjects = [
   // ════════════════════════════════════════════════════════════
   //  PROJECT 1 — SOC HOME LAB
@@ -1830,6 +1831,123 @@ export const socProjects = [
       type: "Protocol",
       value: "TLSv1.3",
       note: "Encrypted C2 communication channel",
+    },
+  ],
+},
+
+
+
+// ── CASE 3 ──────────────────────────────────────────────
+{
+  id: "NET-2026-003",
+  icon: "⚠️",
+  title: "Fake Google Authenticator — Malware Download & C2 Activity",
+  date: "January 2025",
+  riskLevel: "HIGH",
+  status: "Documented",
+  reportType: 'network',
+  reportFile: networkDoc3,
+
+  summary:
+    "User downloaded a malicious file from a fake Google Authenticator website, leading to infection of Windows host DESKTOP-L8C5GSJ (user: shutchenson). Analysis identified infection source and post-infection network activity.",
+
+  fullDescription:
+    "SOC exercise from malware-traffic-analysis.net. A user searched for Google Authenticator and downloaded a malicious file from a fake website. PCAP analysis confirmed infection of internal host 10.1.17.215.\n\nUsing Wireshark, the infected system DESKTOP-L8C5GSJ was identified along with its associated user account shutchenson. Traffic analysis revealed suspicious HTTP downloads and subsequent outbound communication indicating malware execution.\n\nPcap file: 2025-01-22-traffic-analysis-exercise.pcap\nExercise source: malware-traffic-analysis.net",
+
+  emailDetails: {
+    "Incident Time (UTC)": "2025-01-22",
+    "Infected Host IP": "10.1.17.215",
+    "MAC Address": "00:d0:b7:26:4a:74",
+    Hostname: "DESKTOP-L8C5GSJ",
+    "AD Domain": "BLUEMOONTUESDAY / bluemoontuesday.com",
+    "User Account": "shutchenson",
+    "Infection Vector": "Fake Google Authenticator download",
+    Malware: "Unknown (Malicious Executable)",
+    Severity: "HIGH — USER-INITIATED INFECTION",
+  },
+
+  headerAnalysis: {
+    "Step 1 — DNS Analysis":
+      "Filter: dns — identified suspicious domains related to fake Google Authenticator site",
+    "Step 2 — HTTP Download":
+      "Filter: http.request — located malicious file download (executable) from fake website",
+    "Step 3 — Infected Host Identification":
+      "Filter: http contains '.exe' — revealed internal IP 10.1.17.215 as download source",
+    "Step 4 — DHCP Analysis":
+      "Filter: dhcp — mapped MAC 00:d0:b7:26:4a:74 to IP 10.1.17.215 and hostname DESKTOP-L8C5GSJ",
+    "Step 5 — NBNS Confirmation":
+      "Filter: nbns — confirmed hostname DESKTOP-L8C5GSJ via NetBIOS traffic",
+    "Step 6 — User Identification":
+      "Filter: kerberos || ntlmssp — revealed username shutchenson associated with system",
+    "Step 7 — Post-Infection Traffic":
+      "Observed outbound connections to suspicious external IPs indicating possible C2 communication",
+  },
+
+  attacks: [
+    {
+      name: "Malicious Software Download (Fake Website)",
+      mitre: "T1204",
+      mitreLabel: "User Execution",
+      severity: "critical",
+      attacker: "Fake Authenticator Website",
+      target: "10.1.17.215 — DESKTOP-L8C5GSJ",
+      desc: "User downloaded a malicious executable after visiting a fake Google Authenticator site, resulting in system compromise.",
+    },
+    {
+      name: "Command and Control Communication",
+      mitre: "T1071.001",
+      mitreLabel: "Web Protocols",
+      severity: "high",
+      attacker: "Unknown External IPs",
+      target: "Infected Host",
+      desc: "Post-infection traffic shows outbound communication patterns consistent with malware contacting C2 servers.",
+    },
+    {
+      name: "Infected Host Identification — DHCP Forensics",
+      mitre: "T1016",
+      mitreLabel: "System Network Configuration Discovery",
+      severity: "medium",
+      desc: "DHCP traffic revealed MAC address, IP address, and hostname for the infected system.",
+    },
+    {
+      name: "User Account Identification — Kerberos",
+      mitre: "T1078",
+      mitreLabel: "Valid Accounts",
+      severity: "medium",
+      desc: "Kerberos traffic identified the logged-in user account shutchenson on the infected machine.",
+    },
+  ],
+
+  iocs: [
+    {
+      type: "IP",
+      value: "10.1.17.215",
+      note: "Infected workstation — DESKTOP-L8C5GSJ",
+    },
+    {
+      type: "MAC",
+      value: "00:d0:b7:26:4a:74",
+      note: "Infected system network interface",
+    },
+    {
+      type: "User",
+      value: "shutchenson",
+      note: "Compromised user account",
+    },
+    {
+      type: "Domain",
+      value: "[FAKE DOMAIN HERE]",
+      note: "Fake Google Authenticator website (update after analysis)",
+    },
+    {
+      type: "IP",
+      value: "[C2 IP 1]",
+      note: "Command & Control server",
+    },
+    {
+      type: "IP",
+      value: "[C2 IP 2]",
+      note: "Command & Control server",
     },
   ],
 },
