@@ -1951,6 +1951,123 @@ export const socProjects = [
     },
   ],
 },
+
+
+
+
+
+{
+  id: "NET-2026-003",
+  icon: "⚠️",
+  title: "Fake Google Authenticator — Malware Download & C2 Activity",
+  date: "January 2025",
+  riskLevel: "HIGH",
+  status: "Documented",
+  reportType: "network",
+  reportFile: networkDoc2,
+
+  summary:
+    "User downloaded a malicious file from a fake Google Authenticator website, leading to infection of Windows host DESKTOP-L8C5GSJ (user: shutchenson). Analysis identified infection source and post-infection network activity.",
+
+  fullDescription:
+    "SOC exercise from malware-traffic-analysis.net. A user searched for Google Authenticator and downloaded a malicious file from a fake website. PCAP analysis confirmed infection of internal host 10.1.17.215.\n\nUsing Wireshark, the infected system DESKTOP-L8C5GSJ was identified along with its associated user account shutchenson. Traffic analysis revealed suspicious HTTP downloads and subsequent outbound communication indicating malware execution.\n\nPcap file: 2025-01-22-traffic-analysis-exercise.pcap\nExercise source: malware-traffic-analysis.net",
+
+  emailDetails: {
+    "Incident Time (UTC)": "2025-01-22",
+    "Infected Host IP": "10.1.17.215",
+    "MAC Address": "00:d0:b7:26:4a:74",
+    Hostname: "DESKTOP-L8C5GSJ",
+    "AD Domain": "BLUEMOONTUESDAY / bluemoontuesday.com",
+    "User Account": "shutchenson",
+    "Infection Vector": "Fake Google Authenticator download",
+    Malware: "Malicious Executable",
+    Severity: "HIGH — USER-INITIATED INFECTION"
+  },
+
+  headerAnalysis: {
+    "Step 1 — DNS Analysis":
+      "Filter: dns — identified suspicious domains related to fake Google Authenticator site",
+    "Step 2 — HTTP Download":
+      "Filter: http.request — located malicious file download (executable)",
+    "Step 3 — Infected Host Identification":
+      "Filter: http contains '.exe' — revealed internal IP 10.1.17.215",
+    "Step 4 — DHCP Analysis":
+      "Filter: dhcp — mapped MAC to IP and hostname",
+    "Step 5 — NBNS Confirmation":
+      "Filter: nbns — confirmed hostname DESKTOP-L8C5GSJ",
+    "Step 6 — User Identification":
+      "Filter: kerberos || ntlmssp — identified user shutchenson",
+    "Step 7 — Post-Infection Traffic":
+      "Observed outbound connections to suspicious external IPs indicating C2 activity"
+  },
+
+  attacks: [
+    {
+      name: "Malicious Software Download (Fake Website)",
+      mitre: "T1204",
+      mitreLabel: "User Execution",
+      severity: "critical",
+      attacker: "Fake Authenticator Website",
+      target: "10.1.17.215 — DESKTOP-L8C5GSJ",
+      desc:
+        "User downloaded a malicious executable after visiting a fake website, leading to infection."
+    },
+    {
+      name: "Command and Control Communication",
+      mitre: "T1071.001",
+      mitreLabel: "Web Protocols",
+      severity: "high",
+      attacker: "Unknown External IPs",
+      target: "Infected Host",
+      desc:
+        "Post-infection traffic shows outbound connections to external servers for C2."
+    },
+    {
+      name: "DHCP Forensics",
+      mitre: "T1016",
+      mitreLabel: "System Network Discovery",
+      severity: "medium",
+      desc:
+        "DHCP traffic used to identify MAC, IP, and hostname of infected system."
+    },
+    {
+      name: "User Identification — Kerberos",
+      mitre: "T1078",
+      mitreLabel: "Valid Accounts",
+      severity: "medium",
+      desc:
+        "Kerberos traffic revealed the logged-in user shutchenson."
+    }
+  ],
+
+  iocs: [
+    {
+      type: "IP",
+      value: "10.1.17.215",
+      note: "Infected workstation"
+    },
+    {
+      type: "MAC",
+      value: "00:d0:b7:26:4a:74",
+      note: "Victim network interface"
+    },
+    {
+      type: "User",
+      value: "shutchenson",
+      note: "Compromised account"
+    },
+    {
+      type: "Domain",
+      value: "[FAKE DOMAIN HERE]",
+      note: "Malicious download website"
+    },
+    {
+      type: "IP",
+      value: "[C2 IP 1]",
+      note: "Command & Control server"
+    }
+  ]
+},
       // ── ADD MORE NETWORK INVESTIGATIONS HERE IN THE FUTURE ──
       // Copy a case object above, change id/title/date, fill in details.
     ],
