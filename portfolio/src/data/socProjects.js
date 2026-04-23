@@ -1956,6 +1956,7 @@ export const socProjects = [
 
 
 
+
 {
   id: "NET-2026-003",
   icon: "⚠️",
@@ -1964,7 +1965,7 @@ export const socProjects = [
   riskLevel: "HIGH",
   status: "Documented",
   reportType: "network",
-  reportFile: networkDoc2,
+  // reportFile: networkDoc2,
 
   summary:
     "User downloaded a malicious file from a fake Google Authenticator website, leading to infection of Windows host DESKTOP-L8C5GSJ (user: shutchenson). Analysis identified infection source and post-infection network activity.",
