@@ -4,6 +4,7 @@ import ProjectCard from '../components/ProjectCard'
 import Popup from '../components/Popup'
 import { socProjects } from '../data/socProjects'
 import avatarImage from '../assets/profilepicture.jpeg';
+import splunkCert from '../assets/Splunk_Intro_Cert.pdf';
 
 const SOC_SKILLS = [
   {
@@ -33,6 +34,7 @@ const SOC_SKILLS = [
 ]
 
 const SOC_CERTS = [
+  { icon: '📊', name: 'Intro to Splunk (eLearning)', org: 'Splunk', year: 'April 2026', url: splunkCert, color: 'soc' },
   { icon: '🛡️', name: 'SOC Home Lab — Wazuh & TheHive', org: 'Self-Built · Completed March 2026', year: 'March 2026', color: 'soc' },
   { icon: '⚔️', name: 'Introduction to Cybersecurity', org: 'Cisco Networking Academy', year: 'Feb 2026', url: 'https://www.credly.com/badges/bbacbb17-3ee3-488e-87a9-a6909f4b85d6/whatsapp', color: 'soc' },
   { icon: '🛡️', name: 'Cyber Security-SOC and SIEM (SPLUNK & ELK) for Beginners', org: 'Udemy', year: '2026', color: 'soc' },
