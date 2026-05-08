@@ -44,11 +44,11 @@ function SectionDivider() {
 function Frontend() {
   return (
     <div className="page-wrapper">
-      {/* ────── HERO ────── */}
+
       <section className="section-padding">
         <div className="container">
           <div className="hero-section">
-            {/* Left */}
+
             <motion.div
               className="hero-content"
               initial={{ opacity: 0, x: -28 }}
@@ -64,34 +64,15 @@ function Frontend() {
               <span className="hero-role fe">Frontend Developer</span>
 
               <p className="hero-bio">
-                React.js developer with{' '}
-                <strong style={{ color: '#f1f5f9', fontWeight: 600 }}>
-                  6 months internship + 4 months full-time
-                </strong>{' '}
-                experience building responsive, production-grade web applications. Shipped 5+ live
-                projects with real users. Currently exploring cybersecurity and targeting a career
-                switch into SOC Analysis.
+                <strong style={{ color: '#f1f5f9', fontWeight: 600 }}>React.js Developer</strong>{' '}
+                with 10 months of professional experience (6-month internship + 4-month full-time)
+                in delivering high-performance, production-grade web applications. Successfully
+                deployed 5+ live projects, focusing on scalable architecture and seamless user
+                experiences. Currently leveraging my technical foundation to transition into
+                Cybersecurity and Security Operations (SOC).
               </p>
 
-              {/* Stats */}
-              {/* <div className="hero-stats">
-                <div className="hero-stat">
-                  <div className="hero-stat-val fe">5+</div>
-                  <div className="hero-stat-label">Live Projects</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val fe">6 mo</div>
-                  <div className="hero-stat-label">Internship</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val fe">4 mo</div>
-                  <div className="hero-stat-label">Job Exp.</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val fe">10+</div>
-                  <div className="hero-stat-label">Total Projects</div>
-                </div>
-              </div> */}
+
 
               <div className="hero-cta">
                 <motion.a
@@ -123,7 +104,7 @@ function Frontend() {
               </div>
             </motion.div>
 
-            {/* Right — Avatar */}
+
             <motion.div
               className="hero-visual"
               initial={{ opacity: 0, scale: 0.88 }}
@@ -149,7 +130,7 @@ function Frontend() {
 
       <SectionDivider />
 
-      {/* ────── ABOUT ────── */}
+
       <section className="section-padding" id="about">
         <div className="container">
           <motion.div
@@ -169,7 +150,7 @@ function Frontend() {
           </motion.div>
 
           <div className="about-grid">
-            {/* Story */}
+
             <motion.div
               className="about-card"
               initial={{ opacity: 0, y: 20 }}
@@ -182,20 +163,20 @@ function Frontend() {
                 Who I Am
               </div>
               <p>
-                I'm Amit Pal, a frontend developer from India with 10 months of professional
-                experience — 6 months as an intern and 4 months in a full-time role. I started
-                my journey with vanilla HTML/CSS/JS before moving into React.js and the modern
-                frontend ecosystem.
+                I am Amit Pal, a Frontend Developer with 10 months of professional experience—comprising
+                a 6-month internship followed by a 4-month full-time role. My journey began with
+                mastering the core fundamentals of web development (HTML/CSS/JS) and has evolved
+                into building complex, production-ready applications within the React.js ecosystem.
               </p>
               <p style={{ marginTop: '0.9rem' }}>
-                I love building clean, fast UIs with great user experiences. Every project I
-                build teaches me something new about performance, accessibility, and design. I'm
-                now actively transitioning into cybersecurity, particularly SOC Analysis, while
-                continuing to grow as a developer.
+                I am passionate about creating clean, efficient user interfaces and optimizing
+                performance and accessibility. While I continue to deliver high-quality frontend
+                solutions, I am also strategically applying my engineering background to the
+                field of cybersecurity, specializing in SOC Analysis and threat detection.
               </p>
             </motion.div>
 
-            {/* Timeline */}
+
             <motion.div
               className="about-card"
               initial={{ opacity: 0, y: 20 }}
@@ -249,7 +230,7 @@ function Frontend() {
 
       <SectionDivider />
 
-      {/* ────── SKILLS ────── */}
+
       <section className="section-padding" id="skills">
         <div className="container">
           <motion.div
@@ -296,7 +277,7 @@ function Frontend() {
 
       <SectionDivider />
 
-      {/* ────── PROJECTS ────── */}
+
       <section className="section-padding" id="projects">
         <div className="container">
           <motion.div
@@ -325,7 +306,7 @@ function Frontend() {
 
       <SectionDivider />
 
-      {/* ────── CERTS ────── */}
+
       <section className="section-padding" id="certs">
         <div className="container">
           <motion.div
@@ -341,30 +322,39 @@ function Frontend() {
             <h2 className="section-title">Experience & Skills Earned</h2>
           </motion.div>
           <div className="certs-grid">
-            {FE_CERTS.map((c, i) => (
-              <motion.div
-                key={i}
-                className={`cert-card ${c.color}`}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-              >
-                <div className={`cert-icon ${c.color}`}>{c.icon}</div>
-                <div className="cert-info">
-                  <div className="cert-name">{c.name}</div>
-                  <div className="cert-org">{c.org}</div>
-                  <div className="cert-year">{c.year}</div>
-                </div>
-              </motion.div>
-            ))}
+            {FE_CERTS.map((c, i) => {
+              const CardContent = (
+                <motion.div
+                  className={`cert-card ${c.color}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                >
+                  <div className={`cert-icon ${c.color}`}>{c.icon}</div>
+                  <div className="cert-info">
+                    <div className="cert-name">{c.name}</div>
+                    <div className="cert-org">{c.org}</div>
+                    <div className="cert-year">{c.year}</div>
+                  </div>
+                </motion.div>
+              );
+
+              return c.url ? (
+                <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  {CardContent}
+                </a>
+              ) : (
+                <div key={i}>{CardContent}</div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <SectionDivider />
 
-      {/* ────── CONTACT ────── */}
+
       <section className="section-padding" id="contact">
         <div className="container">
           <motion.div
@@ -429,9 +419,11 @@ function Frontend() {
               </div>
               <h3>Hire Me as Frontend Developer</h3>
               <p>
-                10 months experience with React.js and production web apps. Ready to join your
-                team and help build great products. Fast learner, team player, and always
-                shipping quality code.
+                A React.js specialist with 10 months of experience in professional environments.
+                I offer a combination of frontend expertise and a security-conscious mindset,
+                ensuring that applications are not only beautiful and functional but also built
+                with best practices in mind. Ready to contribute to your development team or
+                security-focused engineering projects.
               </p>
               <div className="hire-box-btns">
                 <motion.a
@@ -458,11 +450,11 @@ function Frontend() {
         </div>
       </section>
 
-      {/* ────── FOOTER ────── */}
+
       <footer className="site-footer">
         <div className="container">
           <div className="footer-name">Amit Pal</div>
-          <div className="footer-sub">Frontend Developer · India</div>
+          <div className="footer-sub">Security-Conscious Frontend Developer · India</div>
           <div className="footer-mono">React.js · JavaScript · Tailwind CSS · Vite · 2025–2026</div>
         </div>
       </footer>

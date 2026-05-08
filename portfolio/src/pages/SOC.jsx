@@ -34,7 +34,7 @@ const SOC_SKILLS = [
 
 const SOC_CERTS = [
   { icon: '🛡️', name: 'SOC Home Lab — Wazuh & TheHive', org: 'Self-Built · Completed March 2026', year: 'March 2026', color: 'soc' },
-  { icon: '⚔️', name: 'Introduction to cybersecurity', org: 'Cisco Networking Academy', year: '2026', color: 'soc' },
+  { icon: '⚔️', name: 'Introduction to Cybersecurity', org: 'Cisco Networking Academy', year: 'Feb 2026', url: 'https://www.credly.com/badges/bbacbb17-3ee3-488e-87a9-a6909f4b85d6/whatsapp', color: 'soc' },
   { icon: '🛡️', name: 'Cyber Security-SOC and SIEM (SPLUNK & ELK) for Beginners', org: 'Udemy', year: '2026', color: 'soc' },
   { icon: '📋', name: 'Tata Group - Cybersecurity Analyst Job Simulation', org: 'Forage', year: '2024', color: 'soc' },
 ]
@@ -48,11 +48,11 @@ function SOC() {
 
   return (
     <div className="page-wrapper">
-      {/* ────── HERO ────── */}
+
       <section className="section-padding">
         <div className="container">
           <div className="hero-section">
-            {/* Left */}
+
             <motion.div
               className="hero-content"
               initial={{ opacity: 0, x: -28 }}
@@ -61,64 +61,31 @@ function SOC() {
             >
               <div className="hero-eyebrow soc">
                 <span className="hero-eyebrow-dot" />
-                Cybersecurity Enthusiast · Open to Security Roles
+                Aspiring SOC Analyst · Open to Security Opportunities
               </div>
 
               <h1 className="hero-name">Amit Pal</h1>
               <span className="hero-role soc">Cybersecurity Analyst & Researcher</span>
 
               <p className="hero-bio">
-               A{' '}
-<strong style={{ color: '#f1f5f9', fontWeight: 600 }}>Frontend Developer</strong>{' '}
-who fell in love with cybersecurity. I built hands-on labs covering{' '}
-<strong style={{ color: '#c084fc', fontWeight: 600 }}>
-  SIEM detection, phishing forensics, network traffic analysis, and log investigation
-</strong>{' '}
-— because the best way to learn security is to attack, detect, and document it yourself.
-My engineering background means I understand how systems are built — and how they break.
-
-
-
-
+                A{' '}
+                <strong style={{ color: '#f1f5f9', fontWeight: 600 }}>Frontend Developer</strong>{' '}
+                with a strong technical foundation, now specializing in Security Operations and
+                Threat Detection. I have developed hands-on proficiency in{' '}
+                <strong style={{ color: '#c084fc', fontWeight: 600 }}>
+                  SIEM implementation, phishing forensics, network traffic analysis, and log
+                  investigation
+                </strong>{' '}
+                through rigorous lab environments. My background in software development
+                provides a unique perspective on application security and system
+                vulnerabilities—bridging the gap between building resilient systems and
+                defending them.
               </p>
 
-              {/* Stats */}
-              {/* <div className="hero-stats">
-                <div className="hero-stat">
-                  <div className="hero-stat-val soc">4</div>
-                  <div className="hero-stat-label">VMs Built</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val soc">3</div>
-                  <div className="hero-stat-label">Attacks Found</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val danger">CRIT</div>
-                  <div className="hero-stat-label">Mimikatz</div>
-                </div>
-                <div className="hero-stat">
-                  <div className="hero-stat-val soc">100%</div>
-                  <div className="hero-stat-label">Detect Rate</div>
-                </div>
-              </div> */}
+
 
               <div className="hero-cta">
-                {/* <motion.button
-                  className="btn btn-soc-primary"
-                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <i className="fas fa-shield-halved" /> View SOC Lab
-                </motion.button>
-                <motion.button
-                  className="btn btn-soc-outline"
-                  onClick={() => setSelectedProject(socProjects[0])}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <i className="fas fa-file-shield" /> View Incident Report
-                </motion.button> */}
+
                 <motion.a
                   href="mailto:amitpal2972004@gmail.com"
                   className="btn btn-ghost"
@@ -130,7 +97,7 @@ My engineering background means I understand how systems are built — and how t
               </div>
             </motion.div>
 
-            {/* Right — Avatar */}
+
             <motion.div
               className="hero-visual"
               initial={{ opacity: 0, scale: 0.88 }}
@@ -155,7 +122,7 @@ My engineering background means I understand how systems are built — and how t
 
       <SectionDivider />
 
-      {/* ────── ABOUT ────── */}
+
       <section className="section-padding" id="about">
         <div className="container">
           <motion.div
@@ -186,24 +153,27 @@ My engineering background means I understand how systems are built — and how t
                 <div className="about-card-icon soc"><i className="fas fa-crosshairs" /></div>
                 Why Cybersecurity?
               </div>
-             <p>
-  I'm Amit Pal — a frontend developer with 10 months of professional experience
-  who has been building cybersecurity skills in parallel. Security isn't a pivot
-  for me — it's something I've been genuinely obsessed with. I started with a
-  SOC home lab and kept going: phishing forensics, Splunk log analysis, network
-  traffic investigation with Wireshark. Every project taught me something real.
-</p>
-<p style={{ marginTop: '0.9rem' }}>
-  My development background is a genuine advantage here — I understand web
-  application architecture, how APIs work, client-side attack surfaces like XSS
-  and CSRF, and how modern apps are structured and deployed. That makes me a
-  stronger analyst, not just a tool operator.
-</p>
-<p style={{ marginTop: '0.9rem' }}>
-  I'm open to any cybersecurity role — SOC analyst, security intern, threat
-  analyst, junior penetration tester, or any position where I can contribute,
-  learn fast, and grow into a strong security professional.
-</p>
+              <p>
+                I am Amit Pal—a Frontend Developer with 10 months of professional experience
+                who has been parallelly cultivating a deep expertise in cybersecurity. For me,
+                security is more than a career pivot; it is a discipline I have pursued with
+                dedicated focus, starting with a comprehensive SOC home lab and expanding into
+                areas like phishing forensics, Splunk log analysis, and network traffic
+                investigation with Wireshark.
+              </p>
+              <p style={{ marginTop: '0.9rem' }}>
+                My development background offers a distinct advantage in this field. By
+                understanding web application architecture, API integrations, and client-side
+                attack surfaces (such as XSS and CSRF), I can approach security analysis with a
+                comprehensive understanding of how modern applications are structured,
+                deployed, and potentially exploited.
+              </p>
+              <p style={{ marginTop: '0.9rem' }}>
+                I am currently seeking opportunities to leverage my skills in a dedicated
+                security role—whether as a SOC Analyst, Security Intern, or Threat Analyst. I am
+                committed to continuous learning and am eager to contribute to a proactive
+                security team while growing into a high-impact security professional.
+              </p>
             </motion.div>
 
             <motion.div
@@ -224,8 +194,9 @@ My engineering background means I understand how systems are built — and how t
                     <div className="timeline-title">SOC Home Lab — First Project</div>
                     <div className="timeline-meta soc">March 2026 · Wazuh + TheHive + Kali</div>
                     <div className="timeline-desc">
-                      Built complete 4-VM SOC. Detected Mimikatz (CRITICAL), Brute Force, and Nmap
-                      scan. Wrote incident report IR-2026-001. 100% detection rate.
+                      Engineered a comprehensive 4-VM SOC environment. Successfully identified and
+                      mitigated critical threats including Mimikatz credential dumping, brute force
+                      attacks, and reconnaissance scans. Authored detailed incident report IR-2026-001.
                     </div>
                   </div>
                 </div>
@@ -244,11 +215,12 @@ My engineering background means I understand how systems are built — and how t
                   <div className="timeline-dot soc"><i className="fas fa-circle" style={{ fontSize: '5px' }} /></div>
                   <div className="timeline-body">
                     <div className="timeline-title">Targeting Cybersecurity Roles</div>
-<div className="timeline-meta soc">Goal · Open to any security opportunity</div>
+<div className="timeline-meta soc">Goal · Strategic Security Transition</div>
 <div className="timeline-desc">
-  Actively seeking internships, SOC analyst roles, security analyst positions,
-  or any cybersecurity role where I can contribute and grow. Open to freelance
-  security project work too.
+  Actively pursuing opportunities to apply my technical background and security
+  training in a professional environment. Open to SOC Analyst roles, Security
+  Internships, and junior-level security positions where I can contribute to
+  organizational defense.
 </div>
                   </div>
                 </div>
@@ -260,7 +232,7 @@ My engineering background means I understand how systems are built — and how t
 
       <SectionDivider />
 
-      {/* ────── SKILLS ────── */}
+
       <section className="section-padding" id="skills">
         <div className="container">
           <motion.div
@@ -309,7 +281,7 @@ My engineering background means I understand how systems are built — and how t
 
       <SectionDivider />
 
-      {/* ────── PROJECTS ────── */}
+
       <section className="section-padding" id="projects">
         <div className="container">
           <motion.div
@@ -345,7 +317,7 @@ My engineering background means I understand how systems are built — and how t
 
       <SectionDivider />
 
-      {/* ────── CERTS ────── */}
+
       <section className="section-padding" id="certs">
         <div className="container">
           <motion.div
@@ -362,58 +334,41 @@ My engineering background means I understand how systems are built — and how t
           </motion.div>
 
           <div className="certs-grid">
-            {SOC_CERTS.map((c, i) => (
-              <motion.div
-                key={i}
-                className={`cert-card ${c.color}`}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-              >
-                <div className={`cert-icon ${c.color}`}>{c.icon}</div>
-                <div className="cert-info">
-                  <div className="cert-name">{c.name}</div>
-                  <div className="cert-org">{c.org}</div>
-                  <div className="cert-year">{c.year}</div>
-                </div>
-              </motion.div>
-            ))}
+            {SOC_CERTS.map((c, i) => {
+              const CardContent = (
+                <motion.div
+                  className={`cert-card ${c.color}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                >
+                  <div className={`cert-icon ${c.color}`}>{c.icon}</div>
+                  <div className="cert-info">
+                    <div className="cert-name">{c.name}</div>
+                    <div className="cert-org">{c.org}</div>
+                    <div className="cert-year">{c.year}</div>
+                  </div>
+                </motion.div>
+              );
+
+              return c.url ? (
+                <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  {CardContent}
+                </a>
+              ) : (
+                <div key={i}>{CardContent}</div>
+              );
+            })}
           </div>
 
-          {/* Note box */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45 }}
-            style={{
-              marginTop: '1.5rem',
-              padding: '1.25rem 1.5rem',
-              background: 'rgba(168,85,247,0.05)',
-              border: '1px solid rgba(168,85,247,0.18)',
-              borderRadius: 'var(--radius-lg)',
-            }}
-          >
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--soc-accent)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-              📌 Note for Recruiters
-            </div>
-            <p style={{ fontSize: '0.87rem', color: 'var(--text-secondary)', lineHeight: 1.75 }}>
-             My cybersecurity projects span SIEM detection (Wazuh), phishing email forensics,
-Splunk log analysis, and Wireshark network investigation — all completed while
-working full-time as a frontend developer. I am actively working towards{' '}
-<strong style={{ color: '#c084fc' }}>CompTIA Security+</strong> and{' '}
-<strong style={{ color: '#c084fc' }}>Blue Team Labs Online (BTL1)</strong>. I am
-open to security internships, SOC analyst roles, threat analyst positions, and
-any cybersecurity opportunity where I can learn and prove my value.
-            </p>
-          </motion.div> */}
+
         </div>
       </section>
 
       <SectionDivider />
 
-      {/* ────── CONTACT ────── */}
+
       <section className="section-padding" id="contact">
         <div className="container">
           <motion.div
@@ -479,10 +434,11 @@ any cybersecurity opportunity where I can learn and prove my value.
               </div>
              <h3>Hire Me in Cybersecurity</h3>
 <p>
-  I've built hands-on projects across SIEM detection, phishing analysis, Splunk
-  log investigation, and network forensics — all self-driven, all documented. I
-  understand how web systems are built and how attackers exploit them. Ready to
-  contribute from day one.
+  I have successfully executed hands-on projects across SIEM detection, phishing
+  analysis, Splunk log investigation, and network forensics—all documented with
+  a focus on actionable insights. My development expertise allows me to
+  understand the "how" behind system vulnerabilities, making me a more effective
+  defender. I am ready to bring this combined skill set to your security team.
 </p>
               <div className="hire-box-btns">
                 <motion.a
@@ -493,30 +449,23 @@ any cybersecurity opportunity where I can learn and prove my value.
                 >
                   <i className="fas fa-paper-plane" /> Send Email
                 </motion.a>
-                {/* <motion.button
-                  className="btn btn-soc-outline"
-                  onClick={() => setSelectedProject(socProjects[0])}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <i className="fas fa-file-shield" /> View SOC Report
-                </motion.button> */}
+
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ────── FOOTER ────── */}
+
       <footer className="site-footer">
         <div className="container">
           <div className="footer-name">Amit Pal</div>
-          <div className="footer-sub">SOC Analyst Candidate · India</div>
+          <div className="footer-sub">Aspiring SOC Analyst · Cybersecurity & Frontend Engineering</div>
           <div className="footer-mono">Wazuh · TheHive · Kali Linux · MITRE ATT&CK · March 2026</div>
         </div>
       </footer>
 
-      {/* ────── POPUP MODAL ────── */}
+
       {selectedProject && (
         <Popup project={selectedProject} onClose={() => setSelectedProject(null)} />
       )}
